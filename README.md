@@ -13,20 +13,23 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
-| Cash Flow Forecaster | Build a rolling 13-week cash flow projection from current balances, expected receivables, and planned disbursements. | ~30 min/forecast |
+| Budget vs Actual Variance Analyzer | Turn a raw budget-vs-actual export into a board-ready variance report: a ranked list of material variances with probable causes, follow-up questions for operations, impact classification (Low / Medium / High), a forecast implication, and a clean narrative the controller, CFO, or business owner can read in five minutes. | ~40 min/report |
+| Cash Flow Forecaster | Build a rolling 13-week direct-method cash flow forecast with three scenarios (base / upside / downside), weekly ending-balance and cumulative-headroom tracking, DSO-based receivables modeling, payment-term-aware payables modeling, and a treasury action plan the controller or CFO can act on this week. | ~45 min/forecast |
 | Financial Narrative Builder | Transform raw financial statements into a clear, management-ready narrative report with period-over-period variance analysis, KPI highlights, and forward-looking commentary that a business owner, board, or lender can act on. | ~25 min/report |
+| IRS Notice Responder | Read an IRS (or state) notice and produce a complete response packet: a plain-English explanation of what the notice is and why it was issued, a triage assessment (agree / partially agree / disagree), a draft response letter with correct citations, a list of attachments the taxpayer needs to gather, and a deadline-aware action plan. | ~45 min/notice |
 | Month-End Checklist | Generate a comprehensive, client-specific month-end close checklist tailored to the client's entity type, industry, chart of accounts, and accounting software — covering every reconciliation, adjustment, and review step needed to produce accurate financials. | ~15 min/client |
 | Tax Memo Writer | Draft a structured tax research memorandum analyzing a specific tax question, citing applicable IRC sections, Treasury Regulations, and other primary authorities, and arriving at a defensible conclusion with practical recommendations. | ~30 min/memo |
 | Transaction Categorizer | Classify a batch of uncategorized bank, credit card, or payment-app transactions with suggested GL account codes, confidence levels, and flags for items needing review — tailored to the client's chart of accounts, accounting basis, entity type, and industry. | ~30 min/batch |
 | Client Email Drafter | Draft professional, accounting-specific client emails for the most common firm-to-client scenarios — document requests, deadline reminders, extension notices, notice-response drafts, deliverable delivery, estimated tax reminders, fee reminders, status updates, and K-1 distributions — with the right tone, correct technical language, and complete action items. | ~15 min/email |
 | Client Onboarding Package | Generate a complete new-client onboarding package including a welcome letter, document request checklist, service timeline, key contact sheet, and technology setup instructions — all personalized to the client's entity type and service scope. | ~25 min/client |
+| Audit Planning Memo | Draft a risk-based audit planning memorandum that satisfies AU-C 300 (Planning an Audit) and AU-C 315 (Understanding the Entity and Its Environment and Assessing the Risks of Material Misstatement). | ~60 min/engagement |
 | Compliance Tracker | Generate a comprehensive regulatory compliance calendar and checklist for a client based on their entity type, jurisdiction, industry, and active tax registrations. | ~20 min/review |
 | Engagement Letter Generator | Draft a professional, standards-compliant engagement letter that defines scope, fees, responsibilities, and limitations for a specific accounting service — tax preparation, compilation, review, audit, bookkeeping/CAS, payroll, or advisory. | ~30 min/letter |
 | Email Drafter | Turn rough notes into a professional email matching your company's voice and tone. | ~10 min/use |
 | Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
 | Review Responder | Craft professional responses to online reviews — both positive and negative. | ~10 min/use |
 
-**Total time saved per use: ~250+ minutes across all skills.**
+**Total time saved per use: ~410+ minutes across all skills.**
 
 ## Quick Start
 
