@@ -19,6 +19,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 | IRS Notice Responder | Read an IRS (or state) notice and produce a complete response packet: a plain-English explanation of what the notice is and why it was issued, a triage assessment (agree / partially agree / disagree), a draft response letter with correct citations, a list of attachments the taxpayer needs to gather, and a deadline-aware action plan. | ~45 min/notice |
 | Month-End Checklist | Generate a comprehensive, client-specific, dependency-ordered month-end close checklist tailored to the client's entity type, industry, chart of accounts, and accounting software — covering every reconciliation, adjustment, and review step needed to produce accurate financials — with workpaper-grade sign-off metadata on every line and an industry overlay that adds the specialty steps a given client actually needs. | ~25 min/client |
 | R&D Credit Documenter | Build a defensible R&D tax credit workpaper package that satisfies both the **IRC §41** four-part test and the new **Form 6765 Section G** business-component-level disclosure, and reconciles the credit calculation with the taxpayer's **IRC §174A** research and experimental (R&E) expenditure treatment under the One Big Beautiful Bill Act of 2025 (OBBBA). | ~90 min/project |
+| Sales Tax Nexus Analyzer | Produce a defensible multistate sales-tax nexus study and registration plan for a remote seller, SaaS company, marketplace seller, or hybrid retailer. | ~75 min/study |
 | Tax Memo Writer | Draft a structured tax research memorandum that analyzes a specific tax question, cites applicable IRC sections, Treasury Regulations, and other primary authorities, and arrives at a defensible conclusion with an explicit confidence level, a Form 8275 / 8275-R disclosure posture, and a §6694 preparer-exposure read. | ~45 min/memo |
 | Transaction Categorizer | Classify a batch of uncategorized bank, credit card, or payment-app transactions with suggested GL account codes, confidence levels, and flags for items needing review — tailored to the client's chart of accounts, accounting basis, entity type, and industry. | ~30 min/batch |
 | Client Email Drafter | Draft professional, accounting-specific client emails for the most common firm-to-client scenarios — document requests, deadline reminders, extension notices, notice-response drafts, deliverable delivery, estimated tax reminders, fee reminders, status updates, and K-1 distributions — with the right tone, correct technical language, and complete action items. | ~15 min/email |
@@ -32,7 +33,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 | Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
 | Review Responder | Craft professional responses to online reviews — both positive and negative. | ~10 min/use |
 
-**Total time saved per use: ~640+ minutes across all skills.**
+**Total time saved per use: ~715+ minutes across all skills.**
 
 ## Quick Start
 

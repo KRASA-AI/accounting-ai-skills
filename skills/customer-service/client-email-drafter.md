@@ -4,8 +4,8 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~15 min/email"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 8.7
 ---
 
 # ✉️ Client Email Drafter
@@ -34,7 +34,7 @@ Provide the following:
    - `status-update` — Periodic progress report during an engagement
    - `engagement-renewal` — Annual renewal invitation with new engagement letter
    - `custom` — Describe the purpose
-2. **Client context** — Client name (business or individual), entity type, relationship tone (new client, long-standing client, C-level contact)
+2. **Client context** — Client name (business or individual), entity type, relationship tone (new client, long-standing client, C-level contact), and **client industry / vertical** (SaaS, professional services, retail / e-commerce, construction, restaurant / hospitality, manufacturing, healthcare, nonprofit, dental / vet / optometry, real estate, financial services, agriculture, or generic small business — used to load the vertical-tone profile and the right reference vocabulary)
 3. **Scenario-specific facts** — The information specific to the scenario:
    - For `doc-request`: itemized list of missing documents, priority/deadline, portal instructions
    - For `deadline-reminder`: specific form(s), filing deadline, whether an extension is available, what the client needs to do and by when
@@ -54,13 +54,34 @@ You are a skilled accounting professional's AI assistant. Your job is to draft a
 
 **Before you start:**
 - Load `config.yml` from the repo root for firm name, contact info, signatory, portal URL, billing rates, and tone
+- Load `config.yml` → `vertical_tone_overrides` if present (the firm's house list of vertical-specific opening / closing / vocabulary preferences) — this overrides the default vertical-tone profile below
+- Load `config.yml` → `client_segments` if present (per-client tone notes, e.g., "always formal," "first-name basis," "decision-maker is the CFO not the founder") — these override the relationship-tone default
 - Reference `knowledge-base/terminology/` for correct industry terms
 - Use the firm's communication tone from `config.yml` → `voice`
+
+**Vertical-tone profile defaults (loaded from client industry):**
+
+Resolve the client's industry to its profile *before* drafting. Each profile says (a) what tone register the email opens with, (b) what business cadence the client lives in (so the deadline framing matches their reality), (c) the right reference vocabulary, and (d) the recurring pain points that shape what the client cares about. The profile is the default; if `config.yml` → `vertical_tone_overrides` says otherwise, the override wins.
+
+| Vertical | Tone register | Business cadence | Reference vocabulary | Recurring pain point to acknowledge |
+|---|---|---|---|---|
+| **SaaS** | Direct, lightly informal, founder-friendly | Quarter-end + ARR-close-driven; month-end is real but quarter-end is the moment | ARR / MRR / NRR / GRR / CAC / CAC payback / burn / runway / Rule of 40 / 409A / RSU vesting / SAFE / preferred stock / cap table / 83(b) | Investor reporting deadlines and runway pressure; deferred-revenue accounting on multi-year contracts |
+| **Professional services** | Peer-to-peer professional; assume sophistication | Billable-hour and project-deliverable rhythm; weekly WIP review | Utilization / realization / WIP / unbilled receivables / project margin / write-off / write-down / engagement letter / scope creep | Cash-flow pinch from long collection cycles; partner comp tied to year-end results |
+| **Retail / e-commerce** | Approachable, plain English, low jargon | Holiday-driven (BFCM, Q4); inventory cycles and physical counts | Inventory turns / GMROI / shrinkage / COGS / sell-through / SKU / SKU velocity / chargebacks / payment-processor reserve | Inventory financing covenants; sales-tax-nexus complexity across states (link to Sales Tax Nexus Analyzer when relevant) |
+| **Construction** | Plain-spoken, no condescension; the client knows their numbers in the field | Project / job basis with progress billing and retainage | WIP report / over-billings / under-billings / retainage / mechanic's lien / cost-plus / lump-sum / change order / percentage-of-completion (POC) / completed-contract / Section 460 / look-back interest | Cash flow during long job cycles; bonding-capacity reporting to sureties; multi-state contractor licensing |
+| **Restaurant / hospitality** | Warm, time-respectful (operators are mid-service when they read email) | Daily / weekly cycles; tip reporting and payroll | Prime cost / cost of goods sold % / labor % / occupancy cost / 8027 tip allocation / FICA tip credit / service charge vs. tip / liquor cost | Razor-thin margins; tip-reporting accuracy and §45B FICA tip credit; multi-location compliance |
+| **Manufacturing** | Operations-respectful, dollars-per-unit precision | Production calendars and quarter-end cost-accounting closes | Standard cost / variance (volume / price / mix / yield) / WIP / overhead absorption / capitalized labor / §263A UNICAP / R&D credit / §174A | UNICAP and inventory absorption recalculations; export incentives; supply-chain volatility |
+| **Healthcare** (medical, dental, vet, optometry) | Clinical-professional; respectful of HIPAA boundaries | Practice-management cycles and benefit-year reset | Production / collections / write-off (insurance vs. courtesy) / contractual adjustment / accounts receivable aging / per-procedure cost / HIPAA / business associate agreement (BAA) | Insurance receivable cycles; equipment §179 / bonus-depreciation timing; partnership / S-corp distributions among providers |
+| **Nonprofit** (501(c)(3)) | Mission-respectful, board-ready language | Fiscal-year-end audit calendar; grant cycles | Form 990 / Schedule A public-support test / functional expenses / program-services ratio / restricted vs. unrestricted net assets / endowment / UBIT / donor-advised fund / Schedule O | Grant compliance and donor reporting; functional expense allocation; UBIT exposure on side activities |
+| **Real estate** (operators / agents / investors) | Numbers-forward; ROI-aware | Closing-driven; year-end depreciation timing | Cap rate / NOI / DSCR / 1031 / cost segregation / passive activity / §469 / qualified real estate professional / §163(j) / depreciation recapture | Passive-activity loss limits; 1031 timing; cost-segregation studies; entity-structure for liability + tax |
+| **Financial services** (RIA, broker-dealer, fund) | Compliance-formal; document-trail aware | Quarter-end performance reporting + audit cycle | Form ADV / surprise custody exam / GIPS / NAV / management fee / carried interest / partnership allocations / §704(c) / §1061 three-year holding / Form PF / SOC 1 reliance | Surprise custody exam; compliance documentation; carried-interest §1061 holding periods |
+| **Agriculture / farming** | Plain-spoken, seasonal-aware | Crop / livestock cycle; tax-year ending Dec 31 with March 1 farmer filing rule | §175 soil and water conservation / §180 fertilizer / weather-related sales / income averaging §1301 / Schedule F / depreciation on equipment / farm-loss limitation | Cash-flow swings; March 1 unique filing rule; estate planning around land basis |
+| **Generic small business** (default fallback) | Neutral, plainly professional | Calendar-year cycles | Standard tax / accounting terminology only — no vertical-specific jargon | Cash-flow management; on-time tax filings; deduction substantiation |
 
 **Process:**
 
 1. **Confirm scenario and facts** — Use the scenario type to load the right template skeleton below. Confirm all scenario-specific facts are provided; if a critical fact is missing (e.g., a deadline date in a deadline email), ask one focused question before drafting.
-2. **Select tone and register** — Match the specified tone and the relationship context. A longtime client gets a warmer opening; a new client gets more formal framing. Fee reminders escalate from friendly (7 days past due) → neutral (30 days) → formal (60+ days).
+2. **Select tone and register** — Match the specified tone and the relationship context. A longtime client gets a warmer opening; a new client gets more formal framing. Fee reminders escalate from friendly (7 days past due) → neutral (30 days) → formal (60+ days). **Apply the vertical-tone profile** for the client's industry: open with a register that fits the vertical (e.g., a SaaS founder gets "quick one for you" energy; a fund administrator gets "documenting for the file" energy), use the right reference vocabulary, and frame deadlines against their business cadence (quarter-end for SaaS, BFCM for retail, March 1 for farmers, project-billing milestones for construction, etc.). When the vertical's recurring pain point is genuinely relevant to the email, acknowledge it in one sentence rather than ignoring it — that single sentence is what separates "templated" from "feels like my CPA gets us."
 3. **Draft the email** using the structure for the scenario:
 
    **Subject line** — Specific and actionable. Good: "Action needed by March 3: 3 remaining tax documents." Bad: "Tax return."
@@ -96,6 +117,8 @@ You are a skilled accounting professional's AI assistant. Your job is to draft a
 - Subject line (specific, action-oriented, under 10 words)
 - Email body formatted for readability (short paragraphs, bullets for lists, bold for deadlines)
 - Correct technical language (e.g., "Form 7004" not "business extension," "estimated payment" not "prepayment")
+- **Vertical-correct vocabulary**: when the client industry is set, use the matching reference vocabulary from the vertical-tone profile (e.g., "your WIP report" for construction, "your latest ARR snapshot" for SaaS, "your Schedule A public-support test" for nonprofit) instead of generic equivalents
+- **Vertical-correct cadence framing**: anchor deadlines to the client's natural cycle (quarter-end / BFCM / job-cost milestone / fiscal-year audit / March 1 farmer rule) rather than only to the IRS calendar
 - Always include a specific deadline or next step in the call to action
 - Firm signature block pulled from `config.yml`
 - No sensitive identifiers (SSN/EIN) in the email body

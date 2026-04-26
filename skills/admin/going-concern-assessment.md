@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~55 min/engagement"
 version: 1.0
-last_eval_score: null
+last_eval_score: 8.7
 ---
 
 # ⚖️ Going Concern Assessment

@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~35 min/report"
 version: 2.1
-last_eval_score: 8.2
+last_eval_score: 8.6
 ---
 
 # 📊 Financial Narrative Builder

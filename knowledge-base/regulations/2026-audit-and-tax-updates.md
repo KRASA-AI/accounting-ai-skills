@@ -60,6 +60,15 @@ Quick reference for the authorities that drive several skills added in 2026. Pin
 - **PCAOB AS 2415** — Consideration of an Entity's Ability to Continue as a Going Concern (issuers).
 - **ISA 570 (Revised 2024)** — IAASB; effective for audits of financial statements for periods **beginning on or after December 15, 2026**. Key change: auditor is required to design and perform procedures to evaluate management's assessment **irrespective of whether events or conditions have been identified**.
 
+## Audit: PCAOB Quality Control & Documentation (effective Dec 15, 2026)
+
+- **PCAOB QC 1000**, *A Firm's System of Quality Control*, adopted May 13, 2024; effective for PCAOB-registered firms for fiscal years beginning on or after **December 15, 2026** (postponed one year from the original 2025 effective date). Replaces the legacy AICPA/PCAOB QC standards (formerly QC §10) for PCAOB-registered firms.
+  - Requires firms to identify firm-specific risks to audit quality (including risks from technology-based audit tools and emerging AI), design responses, and continuously monitor and remediate.
+  - **Annual evaluation** of the QC system by leadership with explicit accountability statements.
+  - **External oversight function (EQCF) requirement** for the largest firms (≥ 100 issuer audits) with at least one independent member.
+- **PCAOB AS 1215**, *Audit Documentation*, amendments effective for audits of fiscal years beginning on or after **December 15, 2026**. Modernizes documentation requirements to reflect electronic working papers, automated tools, and the use of AI/agentic systems in fieldwork; clarifies workpaper retention, identification of preparer / reviewer, and the assembly / archival window.
+- **Practitioner implication** — Firms relying on AI-assisted procedures (DataSnipper, Caseware Sherlock, MindBridge, EY Canvas agentic AI, Deloitte Omnia AI, KPMG Clara AI) must update QC documentation to address governance over those tools, evidence of human review, and audit-trail preservation. Skills referencing audit documentation should default to AS 1215 (December 15, 2026 effective).
+
 ## Lease Accounting Reference
 
 - **ASC 842** — lease accounting standard effective for all non-public entities for fiscal years beginning after December 15, 2021. Requires recognition of ROU assets and lease liabilities for leases > 12 months.
@@ -71,8 +80,11 @@ Quick reference for the authorities that drive several skills added in 2026. Pin
 - **Intuit QuickBooks Intuit Assist + AI Agents** — in broad 2026 release; Accounting Agent handles categorization, reconciliation suggestions, anomaly detection.
 - **KPMG Ignite Financial Close Companion** — announced April 22, 2026; built on Workday + Gemini Enterprise; supports month-end close checklist execution.
 - **EY agentic AI in Assurance** — announced April 7, 2026; multi-agent framework embedded in EY Canvas (1.4T journal-entry lines/year), integrated with Microsoft Azure / Foundry / Fabric.
+- **DataSnipper × Armanino agentic-AI alliance** — announced April 14, 2026. Top-20 firm Armanino integrates DataSnipper AI Agents into internal-audit and risk-advisory engagements (data collection, extraction, matching, verification, analysis). Reinforces the firm-tier adoption pattern: a top-tier firm pairing with a tooling vendor rather than building agents in-house.
+- **Accrual** — launched February 2026 with $75M Series A; AI-native preparation-and-review platform for individual tax returns, with Top-100 firm partners including H&R Block, Armanino, and Creative Planning. Reports 85% reduction in prep time and up to 60% reduction in review time.
+- **Basis** — agentic AI for accountants raised $100M Series B at $1.15B valuation in February 2026; targets close, AP/AR, and reconciliation workflows.
 - **Implication for firm-side skills**: the skill library remains valuable as (a) a review layer on top of platform output, (b) a vendor-agnostic fallback for firms not on a Big-Four or Workday stack, and (c) a source of explicit citation and documentation that platform AI does not always produce.
 
 ---
 
-*This page is maintained by the landscape-monitor cycle. Last substantive update: 2026-04-24.*
+*This page is maintained by the landscape-monitor cycle. Last substantive update: 2026-04-25.*

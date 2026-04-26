@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~30 min/letter"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 8.5
 ---
 
 # 📄 Engagement Letter Generator
@@ -40,9 +40,46 @@ You are a skilled accounting professional's AI assistant specializing in engagem
 - Reference `knowledge-base/terminology/` for correct industry terms
 - Use the firm's communication tone from `config.yml` → `voice`
 
+**Service-Type Profile Defaults (pre-route the 18-section build):**
+
+Resolve the service type to its profile *before* drafting. Each profile says, for every numbered section in the build below, whether to **INCLUDE** it as-is, **ADAPT** it (use the section but with service-specific language called out in the profile), **SUPPRESS** it (omit unless a fact in the input forces it back in), or treat it as **CONDITIONAL** (include only if a specified trigger is in the input). The profile is the default; if the input contradicts the default, the input wins — but flag the override in the partner-review note.
+
+| Section | Tax Prep | Tax Planning | Compilation (SSARS §70) | Preparation (SSARS §70) | Review (SSARS §90) | Audit (SAS) | Bookkeeping / CAS | Payroll | Advisory |
+|---|---|---|---|---|---|---|---|---|---|
+| 1. Header & addressing | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 2. Purpose statement | ADAPT — name forms/year(s) | ADAPT — name advice scope | ADAPT — name period & framework | ADAPT — name period | ADAPT — name period & framework | ADAPT — name period & framework | ADAPT — name cadence | ADAPT — name pay frequency | ADAPT — name objective |
+| 3. Scope — inclusions | ADAPT — list every form & jurisdiction | ADAPT — list questions/areas | ADAPT — name framework (GAAP/tax/FRF) | ADAPT — name framework | ADAPT — name framework | ADAPT — name framework | ADAPT — list deliverables & cadence | ADAPT — list pay runs, deposits, filings | ADAPT — list deliverables |
+| 4. Scope — exclusions | INCLUDE — exclude prior years, owners' personal returns | INCLUDE — exclude implementation | INCLUDE — exclude assurance | INCLUDE — exclude assurance & report | INCLUDE — exclude audit-level assurance | INCLUDE — exclude tax & advisory unless added | INCLUDE — exclude tax, audit, advisory | INCLUDE — exclude HR advice, benefits admin | INCLUDE — exclude attest |
+| 5. Standards & independence | ADAPT — SSTS + Circular 230 | ADAPT — SSTS + Circular 230 | ADAPT — SSARS §70 + independence-disclosure choice | ADAPT — SSARS §70 (no report) | ADAPT — SSARS §90 + independence required | ADAPT — applicable SAS + independence required | ADAPT — non-attest framework | ADAPT — non-attest | ADAPT — non-attest; SSCS for consulting |
+| 6. Client responsibilities | ADAPT — completeness of records | ADAPT — accuracy of facts | ADAPT — F/S responsibility | ADAPT — F/S responsibility | ADAPT — F/S + ICFR responsibility | ADAPT — F/S + ICFR + fraud-prevention | ADAPT — source documents | ADAPT — pay data accuracy | ADAPT — decision authority |
+| 7. Firm responsibilities & limitations | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 8. Fees & billing | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 9. Additional services | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 10. Timing | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 11. Extensions | INCLUDE | SUPPRESS | SUPPRESS | SUPPRESS | SUPPRESS | SUPPRESS | SUPPRESS | SUPPRESS | SUPPRESS |
+| 12. Confidentiality (incl. §7216) | ADAPT — full §7216 consent if any disclosure or cross-sell | ADAPT — full §7216 if return-info touched | INCLUDE — Circular 230 only | INCLUDE — Circular 230 only | INCLUDE — Circular 230 only | INCLUDE — Circular 230 only | ADAPT — §7216 if firm also touches returns | ADAPT — §7216 if shared with tax team | INCLUDE |
+| 13. Data security & retention | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 14. Use & distribution of deliverables | ADAPT — return is for taxpayer use | SUPPRESS unless written deliverable | INCLUDE — restricted-use language | INCLUDE — restricted-use, no report issued | INCLUDE — review report distribution limits | INCLUDE — audit report distribution limits | ADAPT — internal-use language | SUPPRESS unless written deliverable | ADAPT — work-product use limits |
+| 15. Disputes & resolution | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 16. Termination | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 17. Entire agreement & amendments | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+| 18. Signatures | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE | INCLUDE |
+
+**Conditional sections triggered by input (override the profile when the trigger is present):**
+
+- Foreign reporting paragraph (FBAR, Form 5471/5472, Form 8938, Form 3520, GILTI, Subpart F) — include whenever the input flags any non-U.S. account, entity, or owner.
+- Cryptocurrency / digital-asset paragraph — include whenever the input flags digital-asset activity (Form 1040 digital-asset question, broker reporting, staking, mining, NFT activity).
+- Multi-state filing addendum — include when the input lists more than one state, with a per-state line.
+- Trust / estate addendum — include for Form 1041 / 706 / 709 work.
+- Nonprofit Form 990 addendum — include for 501(c) entities.
+- Position-disclosure paragraph (Form 8275 / 8275-R) — include when the input flags a tax position requiring disclosure.
+- Prior-year amendment paragraph (Form 1040-X / 1120-X / 1065-X) — include when amendment work is in scope.
+- First-year engagement paragraph (predecessor-auditor communication under AU-C 210) — include for first-year audit / review engagements.
+- Contingent-fee call-out — include any time the fee structure is contingent or percentage-based, with the AICPA Rule 302 guardrails.
+
 **Process:**
 
-Build the letter in the standard order. Include every section below; adapt wording to the service type. Omit only sections that are clearly inapplicable (e.g., attest independence language is not needed for tax-only engagements).
+Build the letter in the standard order. Include every section below; adapt wording to the service type per the profile defaults table above. Omit only sections the profile marks SUPPRESS that no input trigger forces back in (e.g., attest independence language is not needed for tax-only engagements).
 
 1. **Header and addressing** — Firm letterhead, date, client legal name and address, "Dear [Contact]" salutation
 2. **Purpose statement** — One paragraph stating the service(s) to be performed, the reporting period(s), and a reference that this letter documents the terms of the engagement

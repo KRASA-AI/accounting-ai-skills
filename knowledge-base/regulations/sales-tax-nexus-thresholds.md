@@ -41,7 +41,7 @@ Unless noted, the measurement period is "previous or current calendar year" and 
 - **Georgia** — $100,000 / 200 transactions / previous or current calendar year.
 - **Hawaii** — $100,000 / 200 transactions / previous or current calendar year (General Excise Tax).
 - **Idaho** — $100,000 / no transaction test / previous or current calendar year.
-- **Illinois** — $100,000 / 200 transactions / preceding 12 months, measured quarterly.
+- **Illinois** — $100,000 / no transaction test (200-transaction test repealed effective **January 1, 2026** per P.A. 104-0006 / H.B. 2755) / preceding 12 months, measured quarterly. IDOR automatically converts retailers who previously met only the 200-transaction test to "voluntary use tax" registration on January 1, 2026.
 - **Indiana** — $100,000 / no transaction test (repealed effective 2024) / previous or current calendar year.
 - **Kentucky** — $100,000 / 200 transactions / previous or current calendar year.
 - **Louisiana** — $100,000 / no transaction test (repealed effective August 1, 2023) / previous or current calendar year.

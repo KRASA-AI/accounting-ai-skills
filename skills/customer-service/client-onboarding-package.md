@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/client"
 version: 1.0
-last_eval_score: null
+last_eval_score: 8.5
 ---
 
 # 📋 Client Onboarding Package

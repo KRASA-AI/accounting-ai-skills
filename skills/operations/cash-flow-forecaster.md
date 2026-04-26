@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/forecast"
 version: 2.0
-last_eval_score: 8.0
+last_eval_score: 8.6
 ---
 
 # 📊 Cash Flow Forecaster

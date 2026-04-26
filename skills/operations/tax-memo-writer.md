@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~45 min/memo"
 version: 2.1
-last_eval_score: 8.3
+last_eval_score: 8.8
 ---
 
 # 📝 Tax Memo Writer

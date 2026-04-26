@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~25 min/client"
 version: 2.1
-last_eval_score: 8.1
+last_eval_score: 8.6
 ---
 
 # ✅ Month-End Checklist
