@@ -3,8 +3,8 @@ name: "Engagement Letter Generator"
 category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
-time_saved: "~30 min/letter"
-version: 2.1
+time_saved: "~35 min/letter"
+version: 2.2
 last_eval_score: 8.5
 ---
 
@@ -77,6 +77,53 @@ Resolve the service type to its profile *before* drafting. Each profile says, fo
 - First-year engagement paragraph (predecessor-auditor communication under AU-C 210) — include for first-year audit / review engagements.
 - Contingent-fee call-out — include any time the fee structure is contingent or percentage-based, with the AICPA Rule 302 guardrails.
 
+**Fee-Structure Clause Library (paste the matching fee block; do not mix structures within one section):**
+
+| Fee structure | Required clause elements | AICPA / Circular 230 guardrails |
+|---|---|---|
+| **Fixed fee** | Dollar amount; what triggers the fee (per return / per period / per deliverable); list of inclusions; explicit list of exclusions that re-price; payment timing (50/50, on delivery, milestone); change-order trigger (any inclusion / scope change in writing) | Best fit for SSARS §70 / §90 / SAS engagements where deliverable is well-defined |
+| **Hourly with rate sheet** | Per-staff-level rates pulled from `config.yml` → `billing_rates`; minimum-billable increment (commonly 0.1 or 0.25 hour); estimated total hours by staff level; not-to-exceed cap (if any) and the discussion trigger if hit; OOP pass-through (filing fees, postage, software fees) | Default for advisory and complex tax planning; require WIP review and aging in §1.510 (timely-billing) practice |
+| **Value-priced (tier)** | Tier name (Basic / Standard / Premium / Custom); deliverables included at tier; carve-outs that re-tier; cadence (monthly / quarterly / annual); upgrade path mid-year if scope grows; auto-renewal language | Acceptable under SSTS / Circular 230 if not contingent on outcome; clearly distinguish tier deliverables from advisory hours included |
+| **Retainer** | Retainer amount; replenishment trigger (e.g., when balance falls below 25%); how unused retainer is treated at termination (refund net of fees vs. forfeit per state law); application against billings cadence (monthly true-up vs. on-completion) | Check state IOLTA / trust-account rules — most state CPA licensing boards do not require a trust account for retainers, but some do for combined legal/accounting practice |
+| **Contingent / percentage fee** | Percentage and the base it applies to; trigger event (e.g., refund received, tax savings realized, transaction closed); cap (if any); clarification that the fee is contingent on the outcome and not a fixed-fee equivalent | **Circular 230 §10.27 prohibits** contingent fees for preparing an original tax return; permitted on amended returns or refund claims under specific exceptions; **AICPA Rule 302** prohibits contingent fees if the firm performs an attest service for the same client; partner signature required on every contingent-fee engagement letter |
+| **Subscription / monthly recurring** | Monthly fee; deliverables per month; auto-renewal terms; price-escalator (e.g., 3% annual); cancellation notice period (30 / 60 / 90 days) | Best fit for monthly bookkeeping / CAS / payroll; the engagement letter must annually reaffirm scope or renew automatically with new pricing addendum |
+
+**State Liability-Limitation Carve-Out Reference (drives the §15 disputes clause):**
+
+Liability-cap and indemnity clauses in CPA engagement letters are evaluated state-by-state. Pull the client's state(s) and apply the matching posture:
+
+| State posture | States | Drafting note |
+|---|---|---|
+| **Liability caps generally enforceable** | Most states (TX, FL, GA, OH, IN, AZ, CO, NC, etc.) | Cap commonly set at fees paid in the most recent 12 months OR a multiple thereof; exclude fraud, willful misconduct, gross negligence (statutes generally void caps for those) |
+| **Liability caps narrowly enforced or restricted** | NJ, CA (in some attest contexts), some MA case law | Use a tighter cap (e.g., 1× fees) and explicitly carve out attest engagements where state board rules limit caps; partner review required |
+| **Indemnification by client restricted in attest** | Most states under AICPA / state-board independence rules | Do not include client indemnification language in compilation / review / audit letters — independence-impairing per AICPA Code |
+| **Mandatory pre-litigation mediation favored** | TX, CA, NY (court rules) | Include a 30-day mediation-before-litigation clause; venue and choice-of-law to firm's home state |
+| **Statute of limitations for accounting malpractice** | Varies — 2 to 6 years; some states use discovery rule, others use occurrence rule | Add a contractual limitations period (commonly 2 years from delivery of the deliverable) where state law permits |
+
+For multistate clients, apply the most restrictive state's posture or carve out per-state language. Always flag liability-cap and indemnification language for **partner review** — this is the highest-risk paragraph in the letter.
+
+**§7216 Consent Templates (when client tax-return information is used or disclosed beyond preparation):**
+
+If the engagement contemplates **use** of return information beyond preparing the return (e.g., financial-product cross-sell, tax-planning marketing, use in another non-tax service line), or **disclosure** to a third party (lender, insurance underwriter, financial advisor, separate firm), §7216 requires a separately signed taxpayer consent **before** the use or disclosure — **dated, separately signed**, with statutory mandatory language.
+
+| Consent type | When required | Statutory elements |
+|---|---|---|
+| **Use consent (intra-firm)** | Tax-return data used for non-tax service (advisory cross-sell, planning, financial products marketed by the firm) | Taxpayer name; preparer name; specific use; statement that consent must be signed before use; date; taxpayer signature |
+| **Disclosure consent (third party)** | Disclosing return data to a named third party (lender, advisor, attorney, financial planner outside the firm) | Taxpayer name; preparer name; recipient; specific disclosed items; purpose; statement that consent is voluntary and must be signed before disclosure; date; taxpayer signature |
+| **Cross-border / outsourcing consent** | Return information sent to a preparer or processor outside the United States | Recipient identity (entity name, country); express acknowledgment that the information will leave the U.S. and the protections of U.S. law; date; taxpayer signature; **separate** from any other consent |
+
+§7216 consent language is **never** part of the body of the engagement letter — it is a separately signed exhibit. The engagement letter references the exhibit and notes that no use / disclosure beyond preparation will occur without a signed §7216.
+
+**Cyber / Data-Security Clause (FTC Safeguards Rule alignment, effective for tax preparers):**
+
+Every engagement letter for a preparer (defined broadly under the FTC Safeguards Rule) must include:
+- Reference to the firm's written information security plan (WISP)
+- Statement of how client data is stored, encrypted at rest and in transit, retained, and destroyed
+- Breach-notification commitment — what the firm will do if a security incident affects the client's data, including the timeline for notification (commonly within 30 days, faster in states with breach-notification laws — NY 5 days for ID-theft involving SSNs; CA / TX / FL / IL each have their own clocks)
+- Client's role — multi-factor authentication, secure portal use, refusal-of-email-attachments policy for sensitive items
+
+For non-tax preparers, the data-security clause aligns with the firm's §1.700.040 Confidentiality and the AICPA Information Security Framework.
+
 **Process:**
 
 Build the letter in the standard order. Include every section below; adapt wording to the service type per the profile defaults table above. Omit only sections the profile marks SUPPRESS that no input trigger forces back in (e.g., attest independence language is not needed for tax-only engagements).
@@ -103,13 +150,16 @@ Build the letter in the standard order. Include every section below; adapt wordi
 **Output requirements:**
 - Complete letter with every section above, in professional business-letter format
 - Use firm name, address, partner name, and billing rates from `config.yml`
-- For tax engagements: cite SSTS and Circular 230 by number; use §7216 consent language only if applicable
-- For attest engagements: cite the specific SSARS/SAS section and follow AICPA-recommended language patterns
+- For tax engagements: cite SSTS and Circular 230 by number; use §7216 consent language only if applicable, and emit the §7216 consent **as a separate signed exhibit**, never inside the body of the letter
+- For attest engagements: cite the specific SSARS/SAS section and follow AICPA-recommended language patterns; do NOT include client indemnification language in compilation / review / audit letters (independence-impairing)
 - Plain English where possible; technical precision where standards require specific language
-- Clearly distinguish fixed-fee vs. hourly vs. value-priced fee language (don't mix)
-- Include signature blocks ready for e-signature routing
-- Flag any items that the partner should personally review before sending (e.g., contingent fee arrangements, unusual liability limitations, multi-jurisdiction complexity)
-- Saved to `outputs/` if the user confirms
+- Pull the matching **fee block from the Fee-Structure Clause Library** rather than mixing structures within one section; for contingent / percentage fees, **do not draft without partner sign-off** and include the Circular 230 §10.27 / AICPA Rule 302 guardrail language verbatim
+- Pull the matching **state liability-cap posture from the State Liability-Limitation Carve-Out Reference**; for multistate clients use the most restrictive state's posture or carve out per state; flag the §15 (Disputes & Resolution) paragraph for partner review on every letter
+- Include the **Cyber / Data-Security clause** referencing the firm's WISP and the breach-notification commitment with state-specific clocks where applicable; pull from `config.yml` → `wisp_path` and `breach_notification_clock`
+- Pull **firm config values** for: `firm_partner` (signing partner), `wisp_path`, `breach_notification_clock`, `billing_rates` (per-staff-level), `service_tier_pricing` (for value-priced engagements), `late_fee_rate` (subject to state usury cap), and `engagement_letter_addenda_library` (per-service addendum library overriding the conditional sections)
+- Include signature blocks ready for e-signature routing (DocuSign / Adobe Sign / native portal); §7216 consent must route as a **separate signature workflow** with its own signed-and-dated capture
+- Flag any items that the partner should personally review before sending (e.g., contingent fee arrangements, unusual liability limitations, multi-jurisdiction complexity, first-year attest engagements with predecessor-auditor communication still pending, foreign-reporting + cryptocurrency overlap)
+- Saved to `outputs/` if the user confirms; the §7216 consent saves as a sibling exhibit `outputs/{ClientSlug}-7216-consent.md`; the WISP-aligned cyber notice saves as `outputs/{ClientSlug}-data-security-notice.md` when the client requests a copy
 
 ## Example Output
 
