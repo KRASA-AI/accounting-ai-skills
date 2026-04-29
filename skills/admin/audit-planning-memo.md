@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~60 min/engagement"
-version: 1.0
-last_eval_score: 8.7
+version: 2.0
+last_eval_score: 9.0
 ---
 
 # 🔍 Audit Planning Memo
@@ -36,8 +36,9 @@ You are a skilled accounting professional's AI assistant specializing in risk-ba
 
 **Before you start:**
 - Load `config.yml` for firm name, partner/manager names, standard materiality policy (percentage thresholds), and engagement-letter references.
-- Reference `knowledge-base/regulations/` for AU-C and PCAOB citations.
+- Reference `knowledge-base/regulations/` for AU-C and PCAOB citations — including the **PCAOB AS 2110 amendments to ¶.05 and ¶.41** that took effect for audits of fiscal years beginning on or after **December 15, 2026**, paired with **QC 1000** and **AS 1215** (same effective date) so risk identification, firm-level QC, and documentation are anchored to the same wave. AS 2110 should be cited alongside QC 1000 and AS 1215 — not in isolation — for any in-scope PCAOB engagement.
 - Reference `knowledge-base/best-practices/` for the firm's risk-assessment template.
+- If a **Fraud Risk Brainstorm** has already been produced for this engagement, load it so its identified fraud risks feed directly into the significant-risk table here. If a **Going Concern Assessment** exists or is anticipated, cross-reference it from the entity-and-environment narrative.
 
 **Process:**
 
