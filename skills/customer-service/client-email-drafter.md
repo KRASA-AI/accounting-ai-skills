@@ -4,8 +4,8 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~15 min/email"
-version: 2.1
-last_eval_score: 8.7
+version: 2.2
+last_eval_score: 8.9
 ---
 
 # ✉️ Client Email Drafter
@@ -53,10 +53,11 @@ Provide the following:
 You are a skilled accounting professional's AI assistant. Your job is to draft an email that is clear, technically correct, action-oriented, and appropriate to the relationship.
 
 **Before you start:**
-- Load `config.yml` from the repo root for firm name, contact info, signatory, portal URL, billing rates, and tone
+- Load `config.yml` from the repo root for firm name, contact info, signatory, portal URL, billing rates, and tone. Pull these named keys when present: `firm_name`, `firm_signatory_default`, `firm_contact_phone`, `firm_contact_email`, `portal_url`, `voice`, `vertical_tone_overrides`, `client_segments`, `default_extension_email_balance_due_threshold`, `q_est_safe_harbor_default`, `compliance_calendar_pack`, `partner_draft_notes_format`, `secure_attachment_policy`, `e_signature_provider` (e.g., DocuSign, Adobe Sign, native portal).
 - Load `config.yml` → `vertical_tone_overrides` if present (the firm's house list of vertical-specific opening / closing / vocabulary preferences) — this overrides the default vertical-tone profile below
 - Load `config.yml` → `client_segments` if present (per-client tone notes, e.g., "always formal," "first-name basis," "decision-maker is the CFO not the founder") — these override the relationship-tone default
 - Reference `knowledge-base/terminology/` for correct industry terms
+- Reference `knowledge-base/regulations/` for the current-year filing-deadline calendar (federal + state, OBBBA effective-date overlays, FinCEN BOI status, NY LLC Transparency Act effective date)
 - Use the firm's communication tone from `config.yml` → `voice`
 
 **Vertical-tone profile defaults (loaded from client industry):**
@@ -107,7 +108,55 @@ Resolve the client's industry to its profile *before* drafting. Each profile say
 
    **Signature** — Name, title, firm name, phone, email, portal URL (from config).
 
-4. **Review for compliance** — Before output:
+4. **Apply the Regulatory / Deadline Calendar Overlay** before drafting any deadline-bearing email (deadline-reminder, extension-notice, estimated-tax-reminder, notice-response, k1-distribution). The overlay auto-populates the deadline text and the consequence language so the email never names a wrong date.
+
+   | Calendar item | 2026 date | Form / authority | Consequence if missed | Email cadence (when to send) |
+   |---|---|---|---|---|
+   | Q1 estimated tax | April 15, 2026 | Form 1040-ES (federal) + state vouchers | Underpayment-penalty exposure under §6654 (individuals) / §6655 (corps); safe-harbor analysis applies | T-21 days + T-7 days |
+   | Q2 estimated tax | June 15, 2026 | Form 1040-ES + state | Same | T-21 + T-7 |
+   | Q3 estimated tax | September 15, 2026 | Form 1040-ES + state | Same | T-21 + T-7 |
+   | Q4 estimated tax | January 15, 2027 | Form 1040-ES + state | Same | T-21 + T-7 |
+   | Individual 1040 filing | April 15, 2026 | Form 1040 + state | Late-filing penalty 5%/mo to 25%; late-payment penalty 0.5%/mo; interest under §6621 | T-45 + T-21 + T-7 + T-1 |
+   | Individual 1040 extension | April 15, 2026 | Form 4868 | **Extension extends filing, not payment** — balance due is still owed by 4/15 | T-21 + T-7; follow-up T-1 if estimated balance due |
+   | Individual 1040 extended deadline | October 15, 2026 | Form 1040 | Same as 4/15 if not filed | T-45 + T-21 + T-7 |
+   | Partnership / S-corp filing | March 16, 2026 (Mar 15 falls Sun) | Forms 1065 / 1120-S | Late-filing penalty $245/partner-shareholder/mo to 12 months under §6698 / §6699 | T-45 + T-21 + T-7 |
+   | Partnership / S-corp extension | March 16, 2026 | Form 7004 | Extension extends filing to Sept 15, 2026 | T-21 + T-7 |
+   | C-corp filing (calendar year) | April 15, 2026 | Form 1120 | Late-filing penalty 5%/mo to 25% under §6651 | T-45 + T-21 + T-7 |
+   | C-corp extension | April 15, 2026 | Form 7004 | Extension to October 15, 2026 | T-21 + T-7 |
+   | Trust / estate (1041) | April 15, 2026 | Form 1041 | Same as 1040 | T-45 + T-21 + T-7 |
+   | Form 1041 extension | April 15, 2026 | Form 7004 | Extension to September 30, 2026 (5.5-month extension) | T-21 + T-7 |
+   | Form 990 (nonprofit, calendar year) | May 15, 2026 | Form 990 / 990-EZ / 990-N | Late-filing penalty up to $235/day; revocation after 3 consecutive missed years | T-45 + T-21 + T-7 |
+   | Form 990 extension | May 15, 2026 | Form 8868 | Extension to November 15, 2026 | T-21 + T-7 |
+   | Form 5500 (ERISA — calendar year) | July 31, 2026 | Form 5500 | DOL penalty up to $2,739/day per missed return | T-45 + T-21 + T-7 |
+   | Form 5500 extension | July 31, 2026 | Form 5558 | Extension to October 15, 2026 | T-21 + T-7 |
+   | FBAR / FinCEN 114 | April 15, 2026 (automatic 6-mo to October 15) | FinCEN 114 | Civil penalty up to greater of $10K or 50% of account balance for willful violation | T-21 + T-7 |
+   | FinCEN BOI report (entities formed pre-2024) | Carried per latest FinCEN rule status | FinCEN BOIR | Civil penalty up to $591/day per violation; criminal penalties for willful | T-30 + T-7 if applicable |
+   | NY LLC Transparency Act report | January 1, 2026 + ongoing changes within 90 days | NY Dept of State | Suspension of LLC; per-day penalties | T-30 + T-7 |
+   | March 1 farmer rule | March 1, 2026 | Form 1040 (if no Q4 estimate paid) | If 2/3 of gross income from farming and no Q4 estimate paid by Jan 15, must file and pay full balance by 3/1 to avoid penalty | T-21 + T-7 |
+   | K-1 distribution (1065 / 1120-S filing or extension) | March 16 or September 15, 2026 | Schedule K-1 | Recipient cannot file personal return until K-1 received; communicate timing early | Within 5 business days of filing |
+   | OBBBA §174A retro election | Per Rev. Proc. 2025-28 deadlines (small-business cutoff) | Form 3115 / superseding return | Loss of §174A retroactive deductibility for 2022–2024 | T-30 + T-7 from applicable cutoff |
+   | OBBBA §4475 Remittance Transfer Tax | Effective dates per final regs (post-June 12, 2026 comment close) | TBD | TBD — flag for partner review | T-21 once final regs issued |
+   | SALT $40K cap (OBBBA) | Effective 2026 tax year (income-phase-down) | Schedule A (Form 1040) | Affects Q1 2026 estimated-tax projection | Cover in Q1 estimate email |
+   | §45B FICA tip credit / §3121(q) | Ongoing | Form 8846 / 941 | Tip-reporting accuracy affects credit calculation; T.D. 10044 (TTOC) implications | Cover in restaurant / hospitality vertical emails |
+   | Generic state notice response | 30 / 60 / 90 days from notice date (state-specific — see **IRS Notice Responder** State Notice Overlay for CA / NY / TX / FL / IL / WA / CO / GA / NJ / PA) | Per state | Notice becomes final; collections / lien risk | Within 5 business days of receipt |
+
+   The overlay row that fires should appear in the email body where deadlines are referenced (e.g., "the federal individual return is due April 15, 2026; the Form 4868 extends filing but not payment, so any balance due is still owed by April 15"). If multiple deadlines apply (e.g., the client is a partnership-member individual who needs both a 1065 K-1 and their own 1040), name both and order by earliest.
+
+5. **Cross-skill handoff block.** When the email scenario implies downstream work, name the companion skill in the partner-facing draft notes (not in the client-facing email body) so the partner knows what to route next:
+   - `doc-request` → **Client Onboarding Package** (if first-year client) or **Month-End Checklist** (if recurring monthly-close PBC)
+   - `deadline-reminder` involving a tax filing → **Tax Memo Writer** (substantive position) or **Compliance Tracker** (calendar update)
+   - `extension-notice` → **Cash Flow Forecaster** (estimated balance-due funding feasibility) if balance is material
+   - `estimated-tax-reminder` → **Tax Memo Writer** (if safe-harbor calculation requires written analysis) or **Cash Flow Forecaster** (cash-availability check)
+   - `notice-response` → **IRS Notice Responder** (route immediately — apply the OBBBA New-Law Awareness block before drafting any response)
+   - `deliverable-delivery` → **Engagement Letter Generator** (if scope-change addendum required) or **Financial Narrative Builder** (if client requests narrative MD&A or board package)
+   - `k1-distribution` → none (this is the handoff itself) but flag any K-1 timing risk to the partner
+   - `fee-reminder` → **Engagement Letter Generator** (renegotiation if recurring past-due pattern)
+   - `status-update` → **Variance Analyzer** (if reporting on month-end variance) or **Month-End Checklist** (if reporting on close progress)
+   - `engagement-renewal` → **Engagement Letter Generator** (drives the new engagement letter)
+   - Any scenario where the client is a PCAOB-issuer or fiscal periods begin on/after Dec 15, 2026 → reference the PCAOB six-standard wave (QC 1000, AS 1215, AS 2110, AS 2201, AS 1220, AS 2901) in partner draft notes only
+   - Any AI-tool-enabled deliverable being communicated to the client → **Engagement Letter Generator** AI-disclosure clause and **AIUC-1 / SOC 2 Type II / ISO/IEC 42001** reference if the firm is asked to substantiate AI-tool governance
+
+6. **Review for compliance** — Before output:
    - For tax-related emails: no specific dollar advice without documented analysis
    - For fee matters: no statements that could waive the engagement letter's late-fee terms
    - For sensitive data: never include SSN/EIN in the email body; reference "on file" and use the portal for documents
@@ -119,11 +168,13 @@ Resolve the client's industry to its profile *before* drafting. Each profile say
 - Correct technical language (e.g., "Form 7004" not "business extension," "estimated payment" not "prepayment")
 - **Vertical-correct vocabulary**: when the client industry is set, use the matching reference vocabulary from the vertical-tone profile (e.g., "your WIP report" for construction, "your latest ARR snapshot" for SaaS, "your Schedule A public-support test" for nonprofit) instead of generic equivalents
 - **Vertical-correct cadence framing**: anchor deadlines to the client's natural cycle (quarter-end / BFCM / job-cost milestone / fiscal-year audit / March 1 farmer rule) rather than only to the IRS calendar
+- **Regulatory-calendar accuracy**: the deadline named in the email must match the Regulatory / Deadline Calendar Overlay row that fired; if the row is conditional on a state-specific window (notice-response), reference the state-specific row from the **IRS Notice Responder** State Notice Overlay
 - Always include a specific deadline or next step in the call to action
 - Firm signature block pulled from `config.yml`
 - No sensitive identifiers (SSN/EIN) in the email body
 - If the scenario involves a dollar figure, format as `$1,234.56` consistently
 - If helpful, include a short alternative subject line and one-sentence softer/firmer variant
+- **Partner draft notes (separate from the client-facing email body)** when a cross-skill handoff is triggered: a one-line note naming the companion skill(s) so the partner can route follow-up work without re-briefing
 - Saved to `outputs/` if the user confirms
 
 ## Example Output
