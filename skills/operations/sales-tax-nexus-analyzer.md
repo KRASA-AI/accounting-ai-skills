@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~75 min/study"
-version: 1.0
-last_eval_score: null
+version: 2.0
+last_eval_score: 8.9
 ---
 
 # 🗺️ Sales Tax Nexus Analyzer
@@ -39,9 +39,27 @@ You are a skilled accounting professional's AI assistant specializing in multist
 **Before you start:**
 
 - Load `config.yml` for firm name, partner / SALT lead, default risk tolerance, and engagement-letter references.
+- Load `config.yml` → `firm_partner`, `firm_name`, `firm_salt_lead`, `default_risk_tolerance` (conservative / balanced / aggressive — controls when to register on threshold-met date vs. await VDA), `default_vda_materiality_floor` (default $25,000 estimated tax — controls VDA candidate cutoff), `default_tax_engine` (avalara / taxjar / vertex / sovos / stripe-tax / shopify-tax / native), `state_overlay_pack` (which state-specific overlay rows to fire — defaults to all 51 sales-tax-imposing jurisdictions + Alaska ARSSTC), `marketplace_facilitator_pack` (per-marketplace seller-collection / threshold-counting rules), `colorado_home_rule_pack` (Colorado SUTS-covered cities vs. residual home-rule cities requiring separate registration), `alaska_arsstc_default` (opt-in / opt-out), `vda_lookback_default` (3 or 4 years — state-specific overrides on top), `default_state_filing_frequency_thresholds` (firm convention for projected-liability tiers driving monthly / quarterly / annual default frequency), `nexus_questionnaire_template` (firm letterhead response template for incoming state nexus questionnaires), `engagement_letter_salt_addendum` (path to SALT-specific engagement-letter addendum), and `client_segment_routing` (per-client risk-tolerance / VDA-materiality overrides — e.g., diligence-driven clients run at conservative + lower VDA floor).
 - Load `knowledge-base/regulations/sales-tax-nexus-thresholds.md` as the threshold source. Prefer that file over external sources in this run; flag any state where the input contradicts the thresholds file (e.g., the user claims a state still has a transaction test that has since been repealed) so the KB can be reconciled.
 - Reference `knowledge-base/regulations/2026-audit-and-tax-updates.md` for the *Wayfair* citation and the post-2024 transaction-test-repeal trend.
 - If the firm has a prior-year nexus study for the same client, reuse the structure and document only deltas.
+
+**Marketplace-Facilitator Treatment Overlay (apply the row for each marketplace the seller uses — drives whether facilitated sales count toward the seller's economic-nexus threshold and which informational filings remain after the platform's collection obligation kicks in):**
+
+| Marketplace | Collects & remits in (general posture) | Counts toward seller threshold in (selected non-conforming states) | Seller-side residual filing |
+|---|---|---|---|
+| **Amazon (FBA + MCF)** | All 45+ marketplace-facilitator states (collects + remits) | KS, MS, MO, FL — confirm current statute; FBA inventory creates *physical* nexus regardless of facilitator law | Informational return where state requires (e.g., AL Marketplace Seller Report); zero-return for collected sales |
+| **Shopify (Shop Pay + Shopify Marketplace Connect)** | Platform-collected sales in marketplace-facilitator states; **direct-store sales remain seller's obligation** | Direct-store sales always count; facilitated portion follows state rule | Direct-store sales = full seller registration + filing; facilitated portion may require zero-return or info-return |
+| **Etsy** | Collects + remits in marketplace-facilitator states | Several states still count toward seller threshold — confirm row-by-row | Informational return where required |
+| **eBay** | Collects + remits in marketplace-facilitator states | Several states still count toward seller threshold | Informational return where required |
+| **Walmart Marketplace** | Collects + remits in marketplace-facilitator states | Generally excluded from seller threshold in conforming states | Informational return where required |
+| **Stripe / direct DTC checkout** | Not a marketplace facilitator — seller is the merchant of record | Always counts toward seller threshold | Full seller registration + collection + filing |
+| **PayPal / Square / Toast / Clover** | Not marketplace facilitators — payment processors only | Always counts toward seller threshold | Full seller registration + collection + filing |
+| **TikTok Shop** | Marketplace-facilitator posture varies by state — confirm | Treat as marketplace where statute applies; otherwise seller-side | Informational return where applicable |
+| **Faire / Bulletin / wholesale marketplaces** | Generally seller-side (resale certificates dominate); confirm | Counts toward seller threshold (B2B sales test) | Resale-certificate management; seller registration where buyer is end-user |
+| **Generic fallback** | Default to: not a marketplace facilitator unless statute confirms | Counts toward seller threshold | Full seller registration |
+
+Each row that fires must be cited in the **VDA Candidate List** and **Registration & Collection Plan** deliverables.
 
 **Process:**
 
@@ -58,10 +76,12 @@ You are a skilled accounting professional's AI assistant specializing in multist
 7. **Address Colorado home-rule and Louisiana parish-level complications.** Colorado has 70+ home-rule cities that administer their own sales tax outside the state DOR. Registration with the Colorado Sales & Use Tax System (SUTS) covers most but not all home-rule cities; flag the residual cities for separate registration. Louisiana administered most local sales tax through parishes until centralization efforts; confirm current state. Alaska local jurisdictions participate in ARSSTC for remote sellers with a $100,000 statewide threshold; Alaska has no statewide sales tax.
 8. **Build the ongoing compliance calendar.** A 12-month forward calendar with: each state's filing frequency, due dates, prepayment requirements (CA, IL, NY, TX, IN have prepayment rules), exemption-certificate refresh schedule, annual reconciliation returns where applicable (e.g., AL, FL, NJ), and threshold re-test dates (run a fresh study quarterly for high-growth or annually for steady-state).
 9. **Summarize risks and partner review items.** A concise list of (a) states with marginal threshold conclusions or [INFO NEEDED] flags, (b) taxability questions requiring a separate Tax Memo Writer engagement, (c) home-rule or parish residual exposure, (d) physical-presence questions that the input did not resolve, (e) FBA inventory-state nexus posture, and (f) any material affiliate / click-through nexus risks.
+10. **Cross-skill handoff.** When the study surfaces a downstream deliverable, route it explicitly in a *Next Steps — Cross-Skill Handoff* block at the end of the package: **taxability questions on SaaS / digital goods / services** (Texas, Tennessee, South Carolina, Pennsylvania, Washington, New York) → **Tax Memo Writer** (formal taxability opinion at substantial-authority confidence level); **VDA candidate where state notice already received** → **IRS Notice Responder** (state-notice overlay row for CA FTB / CDTFA, NY DTF, TX Comptroller, FL DOR, IL DOR, WA DOR, CO DOR, GA DOR, NJ Treasury, PA DOR); **VDA back-tax exposure that may threaten viability** → **Going Concern Assessment** (contingent-liability material to substantial-doubt analysis); **VDA + registration cash demand** → **Cash Flow Forecaster** (build the cash run for back-tax + collected-tax + ongoing-filing escrow); **registration-driven ongoing compliance calendar** → **Compliance Tracker** (per-state filing-frequency calendar with prepayment-rule flags for CA / IL / NY / TX / IN); **tax-engine configuration + transaction-level revenue-side state flagging** → **Transaction Categorizer** (sales-tax flag `on` mode for ongoing batch coding + tax-engine variance JSON sidecar); **first-year SALT engagement with no prior nexus study** → **Engagement Letter Generator** (SALT-specific engagement-letter addendum + retainer / scope-clarification block) + **Client Onboarding Package** (state-by-state document-request list + tax-engine integration timeline); **client communication on registration + collection go-live** → **Client Email Drafter** (deadline-aware notice using the Regulatory / Deadline Calendar Overlay row for the relevant registration / first-filing date). When the firm or client uses an AI / agentic tool to populate any portion of the input sales tape or threshold computation (Stripe Sigma / Shopify Analytics / Avalara TaxJar AutoFile AI / Vertex O Series AI), cite **AIUC-1** (Schellman as first authorized certifier) alongside **SOC 2 Type II** and **ISO/IEC 42001** in the *Risks and Partner Review Items* section as the AI-tool governance documentation supporting auditor / examiner reliance on the AI-generated input.
 
 **Output requirements:**
 
-- Organized as a six-deliverable package: (1) Executive Summary (one page), (2) State-by-State Nexus Schedule (table; covers all 51 sales-tax-imposing jurisdictions including DC plus Alaska ARSSTC), (3) Physical-Nexus Exposure Summary, (4) VDA Candidate List with back-tax exposure ranges, (5) Registration & Collection Plan with go-live dates, (6) 12-Month Ongoing Compliance Calendar.
+- Organized as a **seven-deliverable** package: (1) Executive Summary (one page), (2) State-by-State Nexus Schedule (table; covers all 51 sales-tax-imposing jurisdictions including DC plus Alaska ARSSTC), (3) Physical-Nexus Exposure Summary, (4) VDA Candidate List with back-tax exposure ranges, (5) Registration & Collection Plan with go-live dates, (6) 12-Month Ongoing Compliance Calendar, (7) **Cross-Skill Handoff block** (Tax Memo Writer / IRS Notice Responder / Going Concern / Cash Flow Forecaster / Compliance Tracker / Transaction Categorizer / Engagement Letter Generator / Client Onboarding Package / Client Email Drafter routing — populated from step 10).
+- The Marketplace-Facilitator Treatment Overlay row that fired must be cited for every marketplace the seller uses (deliverable 2 and 5).
 - Every dollar amount must tie to the input sales tape; no orphan figures.
 - Authorities cited must be real (state statute or DOR notice citation, *Wayfair* opinion). Mark any cite you cannot verify as **[VERIFY]**.
 - Tone is neutral, technical, and non-adversarial.
