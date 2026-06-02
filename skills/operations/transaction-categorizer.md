@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~30 min/batch"
-version: 2.1
-last_eval_score: 8.8
+version: 2.2
+last_eval_score: 9.0
 ---
 
 # 🏷️ Transaction Categorizer
@@ -46,11 +46,25 @@ You are a skilled accounting professional's AI assistant specializing in general
 
 **Before you start:**
 - Load `config.yml` from the repo root for firm defaults, rates, and preferences
-- Load `config.yml` → `default_capitalization_threshold` (overrides the §263(a) $2,500 default), `default_ledger` (qbo / xero / sage-intacct / netsuite / wave / freshbooks / manual), `tax_engine` (avalara / taxjar / vertex / sovos / stripe-tax / shopify-tax / native), and `firm_chart_template` (the firm's house COA template, when the client has not yet adopted a custom COA)
-- Load `config.yml` → `firm_vendor_library` if present (the firm's house list of pre-approved vendor → account mappings — applied across every client unless the client has an override)
+- Load `config.yml` → **13 named pulls**: `firm_partner` (the partner of record), `firm_name`, `firm_bookkeeping_lead` (the CAS / bookkeeping team lead), `default_capitalization_threshold` (overrides the §263(a) $2,500 default), `default_ledger` (qbo / xero / xero-os / xero-jax / sage-intacct / netsuite / wave / freshbooks / ies / ias / ies-construction / manual), `tax_engine` (avalara / taxjar / vertex / sovos / stripe-tax / shopify-tax / native), `firm_chart_template` (the firm's house COA template, when the client has not yet adopted a custom COA), `firm_vendor_library` (the firm's house list of pre-approved vendor → account mappings — applied across every client unless the client has an override), `default_meals_split_policy` (50% TCJA default vs. 100% de minimis carve-out vs. firm-specific override), `default_personal_use_handling` (auto-flag vs. auto-post-to-owner-draw vs. exclude-from-output for owner-operator entities), `client_segment_routing` (per-segment SLA — bookkeeping clients get a different review cadence than audit-prep clients), `peer_benchmark_source` (mirrors variance-analyzer's row — BizMiner / RMA / IBISWorld / Sageworks / Intuit Enterprise Suite / Xero JAX / firm-house — drives the cross-skill handoff to Variance Analyzer when peer-benchmarked spend variance is flagged), `aiuc1_disclosure_default` (on / off — whether the AIUC-1 conditional citation block fires on AI-tool-categorized batches by default)
 - Reference `knowledge-base/terminology/` for correct GL terminology
 - Reference `knowledge-base/regulations/` for tax treatment context (TCJA meals, §263(a) safe harbor, §7216)
 - Reference `knowledge-base/regulations/sales-tax-nexus-thresholds.md` when the sales-tax flag is `on`
+
+**Ledger-Backbone Selection (resolve `default_ledger` from config.yml; each backbone drives auto-categorization-rule shape, job-cost / dimensional posting expectations, sales-tax-engine bridge, peer-benchmark availability, and the rule-export sidecar format):**
+
+| Backbone | Segment | Auto-categorization shape | Dimensional posting | Sales-tax bridge | Peer-benchmark | Rule-export sidecar |
+|---|---|---|---|---|---|---|
+| **Intuit Enterprise Suite (IES)** | Mid-market (May 2026 IES expansion) | IES agentic categorization with peer-benchmarked variance from millions of IES baselines; agent runs as a sub-agent of the firm's IAS workflow | Multi-entity + class + location + project (4 dimensions); IES enforces dimension on every COGS / direct-labor / fixed-asset line | Native IES sales-tax module; bridges to Avalara / Vertex via marketplace connectors | Yes — IES peer-benchmark median (auto-flagged variance) | `outputs/<client>-rules-ies.json` (IES agentic-rule shape) |
+| **Intuit Accountant Suite (IAS)** | Firm-side partner platform (the QBOA successor; firms manage QBO / IES / IES-Construction client books from inside IAS) | Firm-tier rule library shared across client subset; the firm's `firm_vendor_library` posts here once and applies to every IAS-managed client | Inherits the underlying client-book backbone (QBO / IES / IES-Construction) | Inherits client-book backbone | Inherits client-book backbone | `outputs/<client>-rules-ias-{client-backbone}.json` |
+| **IES Construction Edition** | Construction (Intuit's first industry-specific ERP) | Job-cost-aware agentic categorization with WIP-equity reconciliation built in; auto-routes direct-labor + materials + sub-cost + equipment time to job-cost dimension | Job + phase + cost-code + class (4 construction-specific dimensions); WIP/over-billings reconciliation runs nightly | Native IES sales-tax + state contractor-license tax bridge | Yes — IES Construction Edition peer-benchmark median (overrides generic Construction row) | `outputs/<client>-rules-ies-construction.json` |
+| **Xero OS** | Mid-market (the mid-market backbone successor / sibling to standard Xero; multi-entity consolidation) | Xero OS auto-categorization with multi-entity rule inheritance from parent org | Multi-entity + 2 free-form tracking categories (class / location / project) | Native Xero sales-tax module; bridges to Avalara via app marketplace | Yes — Xero OS peer-benchmark (mid-market) | `outputs/<client>-rules-xero-os.csv` |
+| **Xero JAX** | Small / mid-market (Xero's auto-categorization + cash-flow triage agent) | JAX vendor-pattern recognition with auto-categorization confidence scoring; JAX flags low-confidence rows for human review | 2 free-form tracking categories | Xero sales-tax + JAX cash-flow triage | Yes — Xero JAX peer-benchmark (small / mid-market) | `outputs/<client>-rules-xero.csv` (standard Xero Bank Rules format; JAX overlays auto-apply) |
+| **QuickBooks Online (QBO)** | Small business (standard) | QBO Bank Rules + Intuit Assist suggestions | Class + location (2 dimensions) | QBO native sales-tax + Avalara / TaxJar app | No (defer to BizMiner / RMA / Sageworks if peer-benchmark called for) | `outputs/<client>-rules-qbo.csv` (QBO Bank Rules CSV format) |
+| **Sage Intacct** | Mid-market (multi-entity / multi-dimensional) | Sage Intacct Smart Rules + Intacct Copilot suggestions | Multi-entity + up to 8 dimensions (department / location / project / customer / vendor / item / class / employee) | Sage Intacct AvaTax / Vertex / Sovos connectors | No (defer to BizMiner / RMA / Sageworks) | `outputs/<client>-rules-intacct.json` |
+| **NetSuite** | Upper-mid-market / enterprise | NetSuite Bank Match Rules + Oracle Joule / NS AI suggestions | Multi-subsidiary + class + department + location + custom segments | NetSuite SuiteTax + Avalara / Vertex / Sovos connectors | No (defer to BizMiner / RMA / Sageworks) | `outputs/<client>-rules-netsuite.csv` |
+
+If `default_ledger = ies-construction`, force the Construction-vertical override on every fixed-asset, COGS, and direct-labor line: post to job-cost dimension before posting to GL. If `default_ledger = ias`, inherit the underlying client-book backbone row; the rule-export sidecar names the backbone in the filename.
 
 **Process:**
 
@@ -93,6 +107,23 @@ You are a skilled accounting professional's AI assistant specializing in general
    The state-by-state rollup is appended to the summary block as a "Sales-Tax Nexus Watch" mini-table; if any state is `nexus-met` or `approaching`, recommend running the Sales Tax Nexus Analyzer skill as the next engagement.
 9. **Write the post-back JSON for tax-engine integration** when the client uses a tax engine (Avalara / TaxJar / Vertex / Sovos / Stripe Tax / Shopify Tax). Emit a JSON array with `{ transactionId, transactionDate, customerState, customerZip (if available), itemTaxabilityCode, amount, taxCollected, taxAccrued, marketplaceFacilitatorFlag }` per revenue transaction so the firm can validate that what the tax engine collected matches what the GL reflects. Mismatches produce a `tax-engine-variance` flag.
 
+10. **Cross-skill handoff** (partner-facing addendum — separate from the categorization table the bookkeeper posts). Route based on what surfaced in the batch:
+    - Any transaction flagged `nexus-met` or `approaching` (from step 8) → **Sales Tax Nexus Analyzer** (10-row Marketplace-Facilitator Treatment Overlay flagged; pre-load the rolling-12-month state-by-state mini-table as the input)
+    - Construction-vertical WIP / over-billings reconciliation variance (only when `default_ledger = ies-construction` or industry = construction) → **Variance Analyzer** (Industry-Overlay Variance Lens Construction row + Peer-Benchmark Backbone Selection — cite `peer_benchmark_source` from config)
+    - R&D-coded transactions (§174A wage buckets / §41 supply or contract-research lines) → **R&D Credit Documenter** (8-vertical Industry R&D Profile Overlay flagged; pre-load the categorized R&D rows as the project-time / supply / contract-research input)
+    - Payroll-tax variance (941 / state-UC variance, owner-comp vs. distribution mis-coding for S-corp) → **Compliance Tracker** (federal information-return calendar + state payroll-tax row flagged)
+    - Fixed-asset capitalization decision over threshold (§263(a) de minimis + §168(k) bonus depreciation 100% restoration TY2025+) → **Tax Memo Writer** (OBBBA Provision Quick-Lookup Overlay flagged — §168(k) row, plus §263A UNICAP for inventory-heavy clients)
+    - Peer-benchmarked spend variance flagged by IES / Xero JAX / Sageworks → **Variance Analyzer** (cite peer-benchmark source row)
+    - Month-end close approaching after categorization batch posts → **Month-End Checklist**
+    - First-time bookkeeping engagement onboard → **Client Onboarding Package** (Bookkeeping / CAS column of the Service-Type × Entity-Type Document Matrix flagged) + **Engagement Letter Generator** (Bookkeeping / CAS profile + AI-Tool Disclosure & Reliance Clause Library row flagged)
+    - Suspicious-pattern flag (round-dollar transfers, unusual vendor, off-hours posting) on a PCAOB-issuer or other significant-risk engagement → **Fraud Risk Brainstorm** (12-vertical Industry Fraud-Scenario Library overlay flagged)
+    - Going-concern flag (consistent expense-over-revenue + working-capital decline) → **Going Concern Assessment** (12-vertical Industry Trigger Library overlay flagged)
+    - Client-facing communication required on a recurring categorization rule change or material adjustment → **Client Email Drafter** (22-row Regulatory / Deadline Calendar Overlay row flagged)
+    - IRS / state notice arrives on a categorization-flagged item → **IRS Notice Responder** (10-authority State Notice Overlay flagged)
+    The handoff block is a partner-facing addendum unless `client_segment_routing` explicitly authorizes client delivery (most segments do not).
+
+**AIUC-1 conditional citation block** (fires when `aiuc1_disclosure_default = on` or when any AI / agentic tool participated in categorization): when categorization was assisted by an AI or agentic tool — Intuit Enterprise Suite agentic categorization, Intuit Assist (QBO), Xero JAX auto-categorization, Sage Intacct Copilot, NetSuite Oracle Joule, Vic.ai or Booke.ai categorization layer, FloQast Visual Agent Builder reconciliation, Suralink Workpaper Suite Intelligence source-link extraction, or a native-LLM rule-export generator — the partner-facing addendum cites the tool stack and its certification posture: **AIUC-1** (the AI-tool assurance standard; Schellman is the first authorized AIUC-1 certifier as of 2026) alongside **SOC 2 Type II** and **ISO/IEC 42001**. Output package row: "AI-tool reliance — tools: {list}; AIUC-1 status: {certified / in-process / not pursuing} per `aiuc1_disclosure_default` and the firm's tool-stack inventory; human-reviewer retains professional responsibility per AICPA Rule 102 / Rule 201 (the AI tool is not the preparer of record)." For PCAOB-registered audit work, also reference **PCAOB AS 1215** (Dec 15, 2026) electronic-working-paper / AI-tool documentation requirements.
+
 **Output requirements:**
 - A table with columns: Date | Description | Amount | Account # | Account Name | Confidence | Rule Applied | Notes/Flags | Sales-Tax Flag (when sales-tax flag is `on`)
 - Use the client's exact account numbers and names from the provided chart of accounts
@@ -102,7 +133,9 @@ You are a skilled accounting professional's AI assistant specializing in general
 - **Sales-Tax Nexus Watch mini-table** when the sales-tax flag is `on`: state | rolling-12mo gross | rolling-12mo transactions | dollar threshold | transaction threshold | AND/OR logic | status (`nexus-met` / `approaching` / `marketplace-facilitated` / `clear`)
 - **Rule-export file** in the target-ledger format produced as a sidecar (`outputs/<client>-rules-<ledger>.csv` or `.json`) — every confidence-high vendor match becomes an importable rule
 - **Tax-engine variance JSON** sidecar (`outputs/<client>-tax-engine-recon.json`) when a tax engine is configured
-- Ready for one-click import or manual posting to QBO/Xero/Sage/NetSuite — the rule-export sidecar means the next batch is dramatically smaller
+- **Cross-skill handoff addendum** (`outputs/<client>-handoff.md`) — partner-facing routing of every flagged item from step 10 (Sales Tax Nexus Analyzer / Variance Analyzer / R&D Credit Documenter / Compliance Tracker / Tax Memo Writer / Month-End Checklist / Client Onboarding Package / Engagement Letter Generator / Fraud Risk Brainstorm / Going Concern Assessment / Client Email Drafter / IRS Notice Responder)
+- **AIUC-1 tool-stack disclosure row** when `aiuc1_disclosure_default = on` or any AI / agentic tool participated — tools, AIUC-1 / SOC 2 Type II / ISO/IEC 42001 certification posture, human-reviewer professional-responsibility statement
+- Ready for one-click import or manual posting to QBO/Xero/Xero OS/Sage/NetSuite/IES/IES Construction/IAS — the rule-export sidecar means the next batch is dramatically smaller
 - Saved to `outputs/` if the user confirms (CSV if requested)
 
 ## Example Output

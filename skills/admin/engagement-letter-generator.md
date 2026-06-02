@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~35 min/letter"
-version: 2.2
-last_eval_score: 8.5
+version: 2.3
+last_eval_score: 8.9
 ---
 
 # 📄 Engagement Letter Generator
@@ -36,7 +36,8 @@ You are a skilled accounting professional's AI assistant specializing in engagem
 
 **Before you start:**
 - Load `config.yml` from the repo root for firm name, address, partner names, billing rates, and tone
-- Reference `knowledge-base/regulations/` for Circular 230, SSARS/SAS standards context
+- Load `config.yml` → **16 named pulls**: `firm_partner` (signing partner), `firm_name`, `firm_state`, `firm_address`, `wisp_path` (path to the firm's written information security plan), `breach_notification_clock` (firm-default clock; per-state overlay below), `billing_rates` (per-staff-level), `service_tier_pricing` (for value-priced engagements), `late_fee_rate` (subject to state usury cap), `engagement_letter_addenda_library` (per-service addendum library overriding the conditional sections), `ai_tool_disclosure_stack` (the firm's AI-tool inventory — Thomson Reuters Checkpoint Edge AI / CCH AnswerConnect AI / Bloomberg Tax AI / Intuit Enterprise Suite agentic / Xero JAX / Karbon Triage / Drake AI / FloQast Visual Agent Builder / DataSnipper / MindBridge / Suralink Workpaper Suite Intelligence / native-LLM workflows), `aiuc1_certification_status` (the firm's AIUC-1 posture — certified / in-process / not pursuing), `soc2_type2_status` (current / lapsed / in-process / not pursuing), `iso27001_42001_status` (current / lapsed / in-process / not pursuing), `professional_liability_carrier` (CAMICO / AON Affinity / Travelers / CNA / other — drives the renewal-questionnaire alignment block), `cross_border_data_pack` (countries the firm sends data to for outsourcing — drives §7216 cross-border consent automation), `client_segment_routing` (per-segment routing — drives whether the AI-Tool Disclosure pattern defaults to A / B / C)
+- Reference `knowledge-base/regulations/` for Circular 230, SSARS/SAS standards context, plus AICPA Rule 102 (Integrity) / Rule 201 (Due Professional Care) / Rule 302 (contingent fees), and **PCAOB AS 1215** (Dec 15, 2026) electronic-working-paper / AI-tool documentation requirements
 - Reference `knowledge-base/terminology/` for correct industry terms
 - Use the firm's communication tone from `config.yml` → `voice`
 
@@ -124,6 +125,44 @@ Every engagement letter for a preparer (defined broadly under the FTC Safeguards
 
 For non-tax preparers, the data-security clause aligns with the firm's §1.700.040 Confidentiality and the AICPA Information Security Framework.
 
+**AI-Tool Disclosure & Reliance Clause Library (resolve to the matching pattern based on the engagement's AI posture; every 2026 engagement letter MUST include exactly one pattern):**
+
+Generative AI and agentic-AI tools are now sufficiently embedded in firm workflows — and sufficiently called out by the four major CPA-malpractice carriers (CAMICO, AON Affinity Aon PSF / CPAGold, Travelers, CNA — all four ask for AI-use disclosure on 2026 renewals) — that an explicit AI-tool clause is now table stakes. Pull the matching pattern; do not draft from scratch.
+
+| Pattern | When to use | Clause shape |
+|---|---|---|
+| **A. No-AI engagement** | Client mandate (e.g., regulated industry / DoD contractor / hospital-system-side conflict / specific carve-out in client RFP); or firm-side policy excludes AI for this engagement | "The Firm will not use generative AI tooling in the performance of this engagement. All deliverables will be produced solely by the engagement team and reviewed under the standard human review-and-approval workflow." |
+| **B. AI-assisted, human-in-the-loop** (default for 2026) | Default for all non-attest and most attest engagements; firm uses generative AI for first-pass categorization, draft preparation, research synthesis, working-paper extraction, with mandatory human review before issuance | "The Firm uses generative AI tooling as part of its workflow to accelerate first-pass categorization, draft preparation, and research synthesis. Specific tools used in this engagement include {`ai_tool_disclosure_stack` from config — e.g., Thomson Reuters Checkpoint Edge AI, CCH AnswerConnect AI, Bloomberg Tax AI, Intuit Enterprise Suite agentic categorization, Xero JAX, Karbon Triage, Drake AI, FloQast Visual Agent Builder, DataSnipper, MindBridge, Suralink Workpaper Suite Intelligence}. **All AI-assisted output is subject to mandatory human review by a qualified member of the engagement team before issuance**, and the engagement team retains full professional responsibility for the deliverable per AICPA Rule 102 (Integrity) and Rule 201 (Due Professional Care). The AI tool is not the preparer of record. The Firm's underlying tool stack is evaluated against **AIUC-1** (the AI-tool assurance standard; Schellman as first authorized certifier), **SOC 2 Type II**, and **ISO/IEC 42001** (AI management system); current Firm certification posture: AIUC-1 = {`aiuc1_certification_status`}, SOC 2 Type II = {`soc2_type2_status`}, ISO/IEC 27001 / 42001 = {`iso27001_42001_status`}." |
+| **C. AI-agentic engagement** (specific scope items) | Specific scope items executed by an agentic AI tool under documented validation procedures; **restricted to non-attest** unless the agentic tool is **AIUC-1 certified** and the engagement scope explicitly authorizes it | "The Firm will use agentic AI tooling to execute the following specific scope items: {list — e.g., bank-feed categorization, vendor-rule maintenance, payment-run preparation, AP-coding triage}. Each agentic execution is logged, reviewed against the documented validation procedure, and reconciled to a control total before posting. The agentic tool is **{tool name}**, certified under **AIUC-1** ({certifier — Schellman / other}), **SOC 2 Type II**, and **ISO/IEC 42001**. Agentic execution is **not used for attest engagements** (compilation / review / audit) unless the engagement letter explicitly authorizes it and the underlying tool is AIUC-1 certified at the date of issuance. For PCAOB-registered audit work, agentic execution is further governed by **PCAOB AS 1215** (effective Dec 15, 2026) electronic-working-paper / AI-tool documentation requirements." |
+
+**AI-Tool Reliance Limitation paragraph (paired with patterns B and C; omit for pattern A):**
+
+"Notwithstanding the Firm's use of AI tooling described above, the Firm retains **full professional responsibility** for the engagement deliverable. The AI tool is **not** the preparer of record, the auditor of record, or the responsible party for any tax position taken or any opinion issued. AICPA Rule 102 (Integrity) and Rule 201 (Due Professional Care) attach to the human reviewer at the Firm. For tax engagements, the Firm's signing preparer is the preparer of record under IRC §6694 / §7701(a)(36) and Circular 230. For attest engagements, the Firm's engagement partner is the auditor / reviewer / compiler of record under the applicable SAS / SSARS framework. Where PCAOB AS 1215 applies (effective Dec 15, 2026), AI-tool-produced workpapers are documented, authenticated, and retained consistent with the standard's electronic-working-paper and AI-tool documentation requirements."
+
+**Professional-Liability-Carrier Underwriting Alignment block:**
+
+The AI-Tool Disclosure & Reliance Clause Library above is structured to satisfy the AI-use disclosure questions on 2026 CPA-malpractice renewals for the four major carriers (read `professional_liability_carrier` from config to route the matching renewal-questionnaire language):
+- **CAMICO** — Renewal asks: AI tooling used; human review workflow; AIUC-1 / SOC 2 / ISO posture; engagement-letter clause present (Y/N). Pattern B satisfies all four questions.
+- **AON Affinity Aon PSF / CPAGold** — Renewal asks: AI tooling used; AIUC-1 status; agentic-tool use in attest engagements (high-risk flag); written information security plan (WISP) reference. Patterns A / B / C satisfy with explicit AIUC-1 line.
+- **Travelers** — Renewal asks: AI tool inventory; human review workflow; breach-notification clock per state; AI-tool reliance limitation in engagement letter (Y/N). Pattern B + the AI-Tool Reliance Limitation paragraph + the existing Cyber / Data-Security Clause satisfy.
+- **CNA** — Renewal asks: AI tooling used; agentic-tool authorization gating (attest vs. non-attest); SOC 2 Type II reference; engagement-letter clause present. Pattern C with the attest restriction language satisfies.
+
+For any carrier listed in `professional_liability_carrier` other than the four above, default to Pattern B + the Reliance Limitation paragraph and flag for partner review on the carrier-specific questionnaire wording at next renewal.
+
+**Cross-Skill Handoff block (partner-facing addendum — separate from the client-facing engagement letter body unless the engagement letter explicitly authorizes client communication of internal staffing routing):**
+
+After the letter is drafted, route based on what surfaced in the scope:
+- Scope-clarification questions (an inclusion / exclusion that needs a technical position) → **Tax Memo Writer** (8-row OBBBA Provision Quick-Lookup Overlay + 11-row Multistate Conformity Mini-Overlay flagged when relevant)
+- First-year audit / review with AU-C 210 predecessor-auditor communication still pending → **Audit Planning Memo** (PCAOB six-standard Dec-15-2026 block flagged) + **Fraud Risk Brainstorm** + **Going Concern Assessment**
+- Onboarding package needed for the newly signed client → **Client Onboarding Package** (entity-type × service-type document matrix flagged; AU-C 210 + prior-period reconstruction flagged for transition clients)
+- Compliance calendar to set up post-signing → **Compliance Tracker** (industry overlay + state overlay packs flagged; PCAOB QC 1000 / AS 1215 row flagged for assurance clients)
+- First client-facing email post-signing (welcome / portal-access / kickoff) → **Client Email Drafter** (22-row Regulatory / Deadline Calendar Overlay flagged)
+- Cash-flow-impact of fee schedule (when value-priced or retainer or contingent) → **Cash Flow Forecaster** (treasury-side view of the engagement-revenue cadence)
+- R&D-credit engagement scope → **R&D Credit Documenter** (8-vertical Industry R&D Profile Overlay flagged; §174A retro-election cutoff awareness)
+- Sales-tax / SALT engagement scope → **Sales Tax Nexus Analyzer** (10-row Marketplace-Facilitator Treatment Overlay flagged; SALT addendum to engagement letter pre-populated)
+- Going-concern flag surfaced during acceptance → **Going Concern Assessment** (12-vertical Industry Trigger Library overlay flagged) + **Fraud Risk Brainstorm** (12-vertical Industry Fraud-Scenario Library overlay flagged)
+- Bookkeeping / CAS service line with ongoing categorization scope → **Transaction Categorizer** (Ledger-Backbone Selection from config; sales-tax flag `on` mode + tax-engine variance JSON sidecar)
+
 **Process:**
 
 Build the letter in the standard order. Include every section below; adapt wording to the service type per the profile defaults table above. Omit only sections the profile marks SUPPRESS that no input trigger forces back in (e.g., attest independence language is not needed for tax-only engagements).
@@ -158,8 +197,11 @@ Build the letter in the standard order. Include every section below; adapt wordi
 - Include the **Cyber / Data-Security clause** referencing the firm's WISP and the breach-notification commitment with state-specific clocks where applicable; pull from `config.yml` → `wisp_path` and `breach_notification_clock`
 - Pull **firm config values** for: `firm_partner` (signing partner), `wisp_path`, `breach_notification_clock`, `billing_rates` (per-staff-level), `service_tier_pricing` (for value-priced engagements), `late_fee_rate` (subject to state usury cap), and `engagement_letter_addenda_library` (per-service addendum library overriding the conditional sections)
 - Include signature blocks ready for e-signature routing (DocuSign / Adobe Sign / native portal); §7216 consent must route as a **separate signature workflow** with its own signed-and-dated capture
-- Flag any items that the partner should personally review before sending (e.g., contingent fee arrangements, unusual liability limitations, multi-jurisdiction complexity, first-year attest engagements with predecessor-auditor communication still pending, foreign-reporting + cryptocurrency overlap)
+- Include the matching **AI-Tool Disclosure & Reliance Clause** pattern (A / B / C) from the library above; pattern B is default unless `client_segment_routing` or input forces A or C; include the AI-Tool Reliance Limitation paragraph for patterns B and C; reference AIUC-1 + SOC 2 Type II + ISO/IEC 42001 with the firm's current certification posture from config; reference PCAOB AS 1215 for any PCAOB-registered audit work
+- Include the **Professional-Liability-Carrier Underwriting Alignment block** in the partner-review notes (not in the client-facing body) using `professional_liability_carrier` from config to route the matching carrier's renewal-questionnaire wording
+- Flag any items that the partner should personally review before sending (e.g., contingent fee arrangements, unusual liability limitations, multi-jurisdiction complexity, first-year attest engagements with predecessor-auditor communication still pending, foreign-reporting + cryptocurrency overlap, AI-Tool Disclosure pattern C agentic-execution scope items)
 - Saved to `outputs/` if the user confirms; the §7216 consent saves as a sibling exhibit `outputs/{ClientSlug}-7216-consent.md`; the WISP-aligned cyber notice saves as `outputs/{ClientSlug}-data-security-notice.md` when the client requests a copy
+- **Cross-skill handoff addendum** (`outputs/{ClientSlug}-handoff.md`) — partner-facing routing of every flagged item from the Cross-Skill Handoff block above (Tax Memo Writer / Audit Planning Memo / Client Onboarding Package / Compliance Tracker / Client Email Drafter / Cash Flow Forecaster / R&D Credit Documenter / Sales Tax Nexus Analyzer / Going Concern Assessment / Fraud Risk Brainstorm / Transaction Categorizer)
 
 ## Example Output
 
