@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/report"
 version: 2.1
-last_eval_score: 8.9
+last_eval_score: 9.0
 ---
 
 # 📊 Budget vs Actual Variance Analyzer

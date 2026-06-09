@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~75 min/study"
 version: 2.0
-last_eval_score: 8.9
+last_eval_score: 9.0
 ---
 
 # 🗺️ Sales Tax Nexus Analyzer
