@@ -148,8 +148,23 @@ When producing a nexus memo or registration plan, the output should follow this 
 
 ---
 
+## Emerging Taxability — Generative AI & Digital Services (2026)
+
+Separate from the *nexus* question (does the seller have an obligation in the state) is the *taxability* question (is the specific service taxable). A mid-2026 industry survey of state activity found states diverging sharply on whether generative-AI offerings are subject to sales and use tax, with most relying on **existing statutory buckets rather than new AI-specific statutes**. Practitioners advising SaaS, AI, and digital-service clients should resolve taxability state-by-state, not assume a uniform answer.
+
+Patterns to watch as of mid-2026:
+
+1. **No new tax / not taxable (current positions)** — Some states have concluded that stand-alone generative-AI chatbot services are **not** subject to sales tax under current law (e.g., determinations treating certain AI chatbot services as non-taxable). At least one state has clarified that the use of AI **does not change** how the underlying software is taxed (i.e., the existing software/SaaS treatment controls).
+2. **Taxed under an existing framework** — Other states are expected to reach AI services through **existing categories**: taxable **SaaS / electronically delivered software**, **data processing services**, or **information services**. Whether an AI offering is taxable can therefore turn on how the state already treats SaaS and data/information services — a question the nexus analysis should already capture for SaaS clients.
+3. **Active interest / proposed measures** — Some states have signaled interest in taxing AI services, and at least one has introduced a "robot/automation tax" style proposal aimed at businesses that displace workers with AI. These are early-stage and should be tracked, not relied upon.
+
+**Practitioner action:** For any client selling AI-enabled or AI-delivered services, (a) characterize the offering under each state's existing SaaS / data-processing / information-services rules, (b) flag states with published AI-specific determinations (taxable or non-taxable), and (c) note proposed legislation as a forward-looking risk in the nexus memo's executive summary. Confirm current positions against the state DOR and a practitioner service before advising — state positions are shifting quickly.
+
+---
+
 ## Change Tracking
 
+- **2026-06-15 (v1.1)** — Added "Emerging Taxability — Generative AI & Digital Services (2026)" section capturing the mid-2026 divergence in state treatment of generative-AI services (non-taxable determinations vs. taxation under existing SaaS / data-processing / information-services frameworks vs. proposed AI-specific measures). Concepts only; verify per state before advising.
 - **2026-04-24 (v1.0)** — Initial build. Reflects post-*Wayfair* state statutes as currently in force. Authors to verify per engagement before registration.
 
 *Maintained by the landscape-monitor cycle. Consult state DOR notices, state statutes, and practitioner services (CCH, RIA, Bloomberg Tax, SST Governing Board) before committing a client to a registration plan. Thresholds change; this file is a starting point, not a substitute for current-law diligence.*
