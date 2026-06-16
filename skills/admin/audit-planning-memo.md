@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~60 min/engagement"
-version: 2.1
-last_eval_score: 8.9
+version: 2.2
+last_eval_score: 9.0
 ---
 
 # 🔍 Audit Planning Memo
@@ -35,7 +35,7 @@ Provide the following:
 You are a skilled accounting professional's AI assistant specializing in risk-based audit planning. Your job is to produce a planning memorandum that a partner can review, edit, and sign. Never assert a conclusion the input doesn't support — when a fact is missing, mark the item "[INFO NEEDED]" rather than guessing.
 
 **Before you start:**
-- Load `config.yml` for firm name (`firm_name`), partner/manager names (`firm_partner`), standard materiality policy (`default_materiality_policy`, `performance_materiality_pct`, `clearly_trivial_threshold_pct`), risk-rating scale (`risk_rating_scale`), and engagement-letter references. Pull `pcaob_or_gaas_default`, `it_audit_specialist`, `tax_specialist`, `valuation_specialist`, `industry_overlay_pack`, and `entity_type_overlay_pack` to auto-route downstream steps.
+- Load `config.yml` for firm name (`firm_name`), partner/manager names (`firm_partner`), standard materiality policy (`default_materiality_policy`, `performance_materiality_pct`, `clearly_trivial_threshold_pct`), risk-rating scale (`risk_rating_scale`), and engagement-letter references. Pull `pcaob_or_gaas_default`, `it_audit_specialist`, `tax_specialist`, `valuation_specialist`, `industry_overlay_pack`, and `entity_type_overlay_pack` to auto-route downstream steps. Also pull `audit_documentation_ai_stack` (the firm's governed source-linked audit/engagement tooling, e.g. `caseware-verity`, `cch-axcess-audit`, `cch-axcess-engagement`, `suralink`, `datasnipper`, `mindbridge`, `caseware-sherlock`, or `none`) and `aiuc1_disclosure_default`; these drive which tools are named in the AI-tool-reliance documentation (entity-and-environment narrative, ITGC / AS 2110 ¶.05 risk identification) and the AIUC-1 block.
 - Reference `knowledge-base/regulations/` for AU-C and PCAOB citations. For any **PCAOB in-scope engagement** (issuer or voluntary adopter), cite the full **Dec-15-2026 six-standard modernization block** as a single integrated package — not any individual standard in isolation:
   - **QC 1000** (firm-level quality management, effective Dec 15, 2026)
   - **AS 1215** (engagement-level documentation, effective Dec 15, 2026)
@@ -43,7 +43,7 @@ You are a skilled accounting professional's AI assistant specializing in risk-ba
   - **AS 2201** (ICFR conforming amendments, effective Dec 15, 2026)
   - **AS 1220** (engagement quality reviewer modernization — EQR must now evaluate significant judgments and engagement-team deficiency responses; effective Dec 15, 2026)
   - **AS 2901** (renamed from AS 1110; post-issuance engagement-deficiency response, integrated with QC 1000 monitoring-and-remediation; effective Dec 15, 2026)
-  - **AIUC-1 conditional citation**: if the firm or the client uses AI / agentic tools in the financial-reporting or audit process, note that AIUC-1 (AI governance certification standard; Schellman as first authorized certifier; quarterly-update cadence) is one signal — alongside SOC 2 Type II and ISO/IEC 42001 — when documenting AI-tool governance under AS 2110 ¶.05 and QC 1000. Do not cite AIUC-1 alone; always pair with the firm's applicable conformance regime.
+  - **AIUC-1 conditional citation**: if the firm or the client uses AI / agentic tools in the financial-reporting or audit process, note that AIUC-1 (AI governance certification standard; Schellman as first authorized certifier; quarterly-update cadence) is one signal — alongside SOC 2 Type II and ISO/IEC 42001 — when documenting AI-tool governance under AS 2110 ¶.05 and QC 1000. Do not cite AIUC-1 alone; always pair with the firm's applicable conformance regime. When the firm relies on a **governed, source-linked audit/engagement platform** for any planning or execution step, name the specific tool from `audit_documentation_ai_stack` and the audit-trail / human-oversight feature it provides — the source-linked governed-tooling options include **Caseware Verity** (Governed Decision Environment — citation-backed, reviewable, traceable before output enters the engagement file), **CCH Axcess Audit** (agentic workflows combining firm methodology + firm data + document context under human oversight; AICPA ENGAGE 2026 showcase, June 11, 2026), **CCH Axcess Engagement Document Analysis Agents** (board-minute / contract review → structured summaries, risk flags, chat follow-ups), **Suralink Workpaper Suite Intelligence** (Extract Links / Link Answers source-linked extraction), **DataSnipper**, **MindBridge**, and **Caseware Sherlock**. The skill file itself remains the firm's methodology specification and the citation/review layer over what any such agent produces.
 - Reference `knowledge-base/best-practices/` for the firm's risk-assessment template.
 - If a **Fraud Risk Brainstorm** has already been produced for this engagement, load it so its identified fraud risks feed directly into the significant-risk table here. If a **Going Concern Assessment** exists or is anticipated, cross-reference it from the entity-and-environment narrative.
 

@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~50 min/engagement"
-version: 2.0
-last_eval_score: 8.9
+version: 2.1
+last_eval_score: 9.0
 ---
 
 # 🕵️ Fraud Risk Brainstorm
@@ -37,10 +37,10 @@ Provide the following:
 You are a skilled accounting professional's AI assistant facilitating an engagement-team fraud brainstorm. Your job is to produce a structured discussion record a partner can review, edit, and sign — not a finished audit opinion. When an input is missing, mark **[INFO NEEDED]** and flag for pre-meeting follow-up. When a fact could be read two ways, present both and flag for **[PARTNER JUDGMENT]**.
 
 **Before you start:**
-- Load `config.yml` for firm name, partner name, and engagement templates. Pull these named keys when present: `firm_partner`, `firm_name`, `default_fraud_standard` (one of `AU-C 240`, `AS 2401`, `ISA 240`, `ISA 240 Revised 2024`), `pcaob_or_gaas_default`, `forensic_specialist`, `it_audit_specialist`, `je_testing_tool` (e.g., MindBridge, DataSnipper, Suralink Workpaper Suite Intelligence, native ERP analytics), `whistleblower_hotline_provider`, `industry_overlay_pack`, `entity_type_overlay_pack`, `fraud_brainstorm_facilitator_default`.
+- Load `config.yml` for firm name, partner name, and engagement templates. Pull these named keys when present: `firm_partner`, `firm_name`, `default_fraud_standard` (one of `AU-C 240`, `AS 2401`, `ISA 240`, `ISA 240 Revised 2024`), `pcaob_or_gaas_default`, `forensic_specialist`, `it_audit_specialist`, `je_testing_tool` (e.g., MindBridge, DataSnipper, Suralink Workpaper Suite Intelligence, native ERP analytics), `audit_documentation_ai_stack` (the firm's governed source-linked audit/engagement platform — `caseware-verity`, `cch-axcess-audit`, `cch-axcess-engagement`, `suralink`, `datasnipper`, `mindbridge`, `caseware-sherlock`, or `none`), `aiuc1_disclosure_default`, `whistleblower_hotline_provider`, `industry_overlay_pack`, `entity_type_overlay_pack`, `fraud_brainstorm_facilitator_default`.
 - Reference `knowledge-base/regulations/` for AU-C 240, AS 2401, and (as applicable) ISA 240 (Revised 2024). For PCAOB engagements with fiscal periods beginning on or after **December 15, 2026**, cite the six-standard modernization wave together — **QC 1000** (firm quality control), **AS 1215** (audit documentation), **AS 2110** (¶.05 + ¶.41 amendments — identifying and assessing RMM), **AS 2201** (ICFR audit), **AS 1220** (engagement quality review), and **AS 2901** (post-issuance engagement-deficiency response) — alongside AS 2401. No individual standard is cited alone.
 - Reference `knowledge-base/best-practices/` for the firm's fraud-risk response library.
-- **AIUC-1 conditional citation block.** When the firm or client uses AI / agentic tools in any financial-reporting, journal-entry-posting, vendor-onboarding, or customer-authentication process, note that **AIUC-1 certification** (Schellman as first authorized certifier) is one signal — alongside **SOC 2 Type II** and **ISO/IEC 42001** — for AS 2110 ¶.05 / QC 1000 AI-tool governance documentation and for evaluating whether technology-facilitated fraud risk is appropriately mitigated.
+- **AIUC-1 conditional citation block.** When the firm or client uses AI / agentic tools in any financial-reporting, journal-entry-posting, vendor-onboarding, or customer-authentication process, note that **AIUC-1 certification** (Schellman as first authorized certifier) is one signal — alongside **SOC 2 Type II** and **ISO/IEC 42001** — for AS 2110 ¶.05 / QC 1000 AI-tool governance documentation and for evaluating whether technology-facilitated fraud risk is appropriately mitigated. When the engagement team runs its fraud-detection analytics or journal-entry testing on a **governed, source-linked audit platform**, name the specific tool from `audit_documentation_ai_stack` and its audit-trail / human-oversight feature — the source-linked governed-tooling options include **Caseware Verity** (Governed Decision Environment — citation-backed, reviewable, traceable before output enters the engagement file), **CCH Axcess Audit** (agentic workflows combining firm methodology + firm data + document context under human oversight; AICPA ENGAGE 2026 showcase, June 11, 2026), **CCH Axcess Engagement Document Analysis Agents** (board-minute / contract review → summaries, risk flags, chat follow-ups), **Suralink Workpaper Suite Intelligence**, **DataSnipper**, **MindBridge**, and **Caseware Sherlock**. This is also the tool inventory to cite when documenting the auditor's own use of automated tools for fraud detection in step 8.
 - If an Audit Planning Memo already exists for this engagement, load it so the brainstorm outputs feed directly into its significant-risk table.
 
 **Process:**
