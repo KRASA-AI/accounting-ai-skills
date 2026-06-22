@@ -37,7 +37,13 @@ Quick reference for the authorities that drive several skills added in 2026. Pin
   - **Real estate / fund clients** with planned QOZ deployments should re-time capital deferrals and basis-step elections to the **January 1, 2027** designation effective date; legacy QOZs designated under the original 2018 round may or may not be re-designated.
   - **Form 8997 / 8996** workpapers, deferral elections, and 10-year basis-step holding-period clocks should be flagged for re-papering once the new map publishes (expected Q4 2026 / Q1 2027).
   - The new statutory definition of **"qualified rural opportunity zone"** unlocks distinct benefit tiers; tax memos that opine on QOZ deferral or 10-year exclusion should distinguish urban vs. rural tracts.
-- **Confirm at draft time**: Final list of designated tracts; any state-by-state nomination decisions; transition relief for taxpayers mid-deferral when a legacy QOZ is not re-designated.
+- **Transitional guidance — Notice 2026-40 (released June 18, 2026)** — Treasury and IRS announced their **intent to issue proposed regulations** under §§1400Z-1 and 1400Z-2 as amended by OBBBA, and supplied bridge rules for the gap between the legacy (Tax Cuts and Jobs Act) regime and the post-OBBBA rolling-designation regime. Areas addressed:
+  - **Investor timing** — guidance distinguishes gain **realized on or before December 31, 2026 and invested in a QOF on or before December 31, 2026** from amounts invested **on or after January 1, 2027**, and addresses **eligibility of inclusion-event gain**. This is the transition relief the prior open question flagged for taxpayers mid-deferral.
+  - **Property in lapsing tracts** — **tangible property acquired after December 31, 2026** for use in a tract designated as a QOZ under the TCJA but **not** re-designated under OBBBA generally **cannot qualify as QOZBP**; a memo opining on a post-2026 acquisition must verify the tract carries forward under the new map.
+  - **Compliance testing after a designation period ends** — safe harbors let QOFs and QOZBs continue to satisfy certain tangible-property and compliance tests after a QOZ designation period expires.
+  - **Effective expectation** — the forthcoming final regulations are expected to apply to **tax years ending after June 18, 2026** (the Notice's release date); taxpayers may generally rely on the Notice in the interim.
+  - **Practitioner action** — for `tax-memo-writer` opinions touching QOZ/QOF deferral, the 10-year exclusion clock, or QOZBP qualification, cite **Notice 2026-40** for the transition period rather than relying on legacy regulations alone, and flag the December 31, 2026 / January 1, 2027 dividing line and the "previously designated QOZ" property trap.
+- **Confirm at draft time**: Final list of designated tracts; any state-by-state nomination decisions; the proposed regulations promised by Notice 2026-40 (intent-to-issue only as of June 2026 — no proposed or final text yet); whether the final regs preserve the Notice's investor-timing and QOZBP transition positions verbatim.
 
 ## Tax: OBBBA Remittance Transfer Tax — IRC §4475
 
@@ -57,6 +63,14 @@ Quick reference for the authorities that drive several skills added in 2026. Pin
   - **Intra-company wire transfers** between commonly controlled entities are likely outside the "remittance transfer" definition (not sent for personal purposes by a consumer), but confirm under the proposed regulations and any final rules.
 - **Skill candidate** — A **Remittance Transfer Tax Compliance Checker** for clients who are remittance transfer providers (Form 720 obligation, deposit schedule, provider-liability exposure) and for clients whose employees or international payment workflows are affected. Slots into `operations/` alongside `sales-tax-nexus-analyzer.md` (both involve transaction-level tax identification and registration / reporting thresholds). Defer to next cycle for drafting.
 - **Confirm at draft time**: Final regulations (proposed regs open for comment through June 12, 2026; finalization date uncertain); IRS guidance on which funding instruments and provider types are in scope; whether any de-minimis or small-provider safe harbor is added.
+
+## Tax: OBBBA Exempt-Org Executive Comp Excise Tax — IRC §4960 (Notice 2026-36)
+
+- **Statutory source** — IRC §4960, as amended by **OBBBA §70416** (Pub. L. 119-21). §4960 imposes a **21% excise tax** on an applicable tax-exempt organization (ATEO) on remuneration over **$1M** paid to a covered employee, plus certain excess parachute payments.
+- **What changed** — For **tax years beginning after December 31, 2025**, OBBBA **expands the "covered employee" definition** beyond the prior five-highest-compensated limit to reach **any current or former employee** of the ATEO (or a predecessor) who was such an employee in **any tax year beginning after December 31, 2016**. The pool of covered employees now grows cumulatively year over year rather than resetting to a top-five list.
+- **Notice 2026-36 (released June 5, 2026)** — Treasury and IRS announced their **intent to issue proposed regulations** implementing the expansion. Interim reliance: ATEOs and related organizations may rely on **limited-hours** and **nonexempt-funds** covered-employee exceptions similar to existing Reg. §53.4960-1(d)(2)(ii)–(iii) until further guidance. Comments are requested by **August 4, 2026**.
+- **Practitioner implications** — Exempt-org clients (and taxable entities related to an ATEO) need expanded covered-employee tracking from the 2026 tax year forward; the once-five-employee census becomes a **running roster** back to 2017. Flag for `compliance-tracker` and any Form 4720 workpapers.
+- **Confirm at draft time**: Whether proposed/final regs preserve the limited-hours and nonexempt-funds exceptions; treatment of predecessor organizations and related-organization aggregation under the expanded definition.
 
 ## Tax: IRS Practice & Procedure Updates (2026)
 
@@ -217,4 +231,4 @@ The same May 13, 2024 PCAOB rulemaking package that produced QC 1000, AS 1215, a
 
 ---
 
-*This page is maintained by the landscape-monitor cycle. Last substantive update: 2026-06-15.*
+*This page is maintained by the landscape-monitor cycle. Last substantive update: 2026-06-22.*
