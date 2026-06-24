@@ -4,8 +4,8 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~35 min/letter"
-version: 2.3
-last_eval_score: 8.9
+version: 2.4
+last_eval_score: 9.0
 ---
 
 # 📄 Engagement Letter Generator
@@ -165,6 +165,17 @@ After the letter is drafted, route based on what surfaced in the scope:
 
 **Process:**
 
+**Step 0 — Pre-Flight Input Validation (run this before drafting a single section).** The slowest part of letter production is discovering a missing input *after* a draft exists and bouncing it back. Front-load every gap into one consolidated pass so the engagement can move in a single round-trip:
+
+1. **Check the seven Required Input items.** For each (service type, client details, scope inclusions/exclusions, fee structure, period covered, client responsibilities, special circumstances), mark `present` / `missing` / `ambiguous`.
+2. **Auto-resolve what config or the service profile can supply** without asking — firm/partner/address/rates/WISP/breach-clock/AI stack/certification posture from `config.yml`; section INCLUDE/ADAPT/SUPPRESS routing from the Service-Type Profile; the default AI pattern (B) from `client_segment_routing`. List what you auto-filled so the partner can see it.
+3. **Batch every remaining gap into ONE numbered question list** rather than asking serially. Group it into two buckets:
+   - **Drafting blockers** (the letter cannot be accurate without them) — e.g., the dollar fee amount, the exact entities/forms/jurisdictions in scope, the engagement period, the client's legal name and signatory.
+   - **Partner-decision items** (do NOT auto-resolve these — they are intentionally gated) — contingent / percentage fee approval (Circular 230 §10.27 / AICPA Rule 302), the §15 liability-cap and indemnification posture for the client's state(s), first-year attest predecessor-auditor (AU-C 210) handling, and AI-Tool Disclosure pattern C agentic-scope authorization. Surface these as a partner checklist in the same pass; never silently pick the answer.
+4. **State the safe defaults you will assume if the user replies "proceed."** For non-gated gaps only — e.g., net-30 billing, 7-year retention, mediation-first dispute clause, AI pattern B, the firm's default breach-notification clock — so a user who wants a one-shot draft gets a complete letter with every assumption logged, while a user who wants to answer first can. Gated partner-decision items are never defaulted; if unresolved, the relevant clause is emitted in bracketed `[PARTNER REVIEW — …]` placeholder form rather than guessed.
+
+The output of Step 0 is either (a) a clean go-ahead because everything needed is present/defaulted, or (b) a single consolidated input-and-partner-decision checklist — never a half-draft that has to be re-circulated.
+
 Build the letter in the standard order. Include every section below; adapt wording to the service type per the profile defaults table above. Omit only sections the profile marks SUPPRESS that no input trigger forces back in (e.g., attest independence language is not needed for tax-only engagements).
 
 1. **Header and addressing** — Firm letterhead, date, client legal name and address, "Dear [Contact]" salutation
@@ -187,6 +198,7 @@ Build the letter in the standard order. Include every section below; adapt wordi
 18. **Signatures** — Firm partner signature block; client signature block (for entities, signed by authorized officer with title); date lines.
 
 **Output requirements:**
+- Run **Step 0 — Pre-Flight Input Validation** first: if anything is missing, return the single consolidated input-and-partner-decision checklist instead of a partial draft; if everything is present or safely defaultable, proceed straight to a complete letter with an assumptions log so no second round-trip is needed for non-gated items
 - Complete letter with every section above, in professional business-letter format
 - Use firm name, address, partner name, and billing rates from `config.yml`
 - For tax engagements: cite SSTS and Circular 230 by number; use §7216 consent language only if applicable, and emit the §7216 consent **as a separate signed exhibit**, never inside the body of the letter
