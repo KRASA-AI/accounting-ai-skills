@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~45 min/memo"
-version: 2.2
-last_eval_score: 8.9
+version: 2.3
+last_eval_score: 9.0
 ---
 
 # 📝 Tax Memo Writer
@@ -53,6 +53,7 @@ You are a skilled accounting professional's AI assistant specializing in tax res
 | **§199A QBI** | QBI deduction provisions (post-OBBBA) | Per OBBBA effective date | IRC §199A; flag SSTB phase-out + W-2 wages / UBIA tests | — |
 | **§45B** | FICA tip credit + §3121(q) + T.D. 10044 (hospitality) | Per T.D. 10044 and IRB 2026-18 | IRC §45B; §3121(q); T.D. 10044; pair with Tip-Income / TTOC Compliance Reviewer (carried) | AICPA TTOC comment-letter posture |
 | **§45S / §68 LID / §530A** | Trump Accounts + §45S paid-family-leave credit + §68 limitation on itemized-deduction overall-cap restoration | Per OBBBA effective date | IRC §45S; IRC §68; IRC §530A; AICPA comment-letter posture | AICPA comment letters open — flag if material |
+| **§1400Z-1 / §1400Z-2 (QOZ / QOF)** | Qualified Opportunity Zone regime as amended by OBBBA §70421 — new designation rounds, rolling deferral, and post-2026 investment rules | Interim guidance per **Notice 2026-40** (published **IRB 2026-28, July 6, 2026**); prospective for post-12/31/2026 investments | IRC §1400Z-1; IRC §1400Z-2; **Notice 2026-40** (cite as interim authority pending proposed regs); flag the **Dec 31, 2026 → Jan 1, 2027 investor-timing line** and the **"previously designated QOZ" post-2026 property trap** | Guidance is notice-stage / pre-NPRM — flag reliance limits and monitor for proposed regs |
 
 Cite the OBBBA-section row that fired in the *Analysis* section. Any conclusion that touches an OBBBA-effective-date item without citing the relevant row is incomplete.
 
