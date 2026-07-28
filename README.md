@@ -24,6 +24,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 | Transaction Categorizer | Classify a batch of uncategorized bank, credit card, or payment-app transactions with suggested GL account codes, confidence levels, and flags for items needing review — tailored to the client's chart of accounts, accounting basis, entity type, and industry. | ~30 min/batch |
 | Client Email Drafter | Draft professional, accounting-specific client emails for the most common firm-to-client scenarios — document requests, deadline reminders, extension notices, notice-response drafts, deliverable delivery, estimated tax reminders, fee reminders, status updates, and K-1 distributions — with the right tone, correct technical language, and complete action items. | ~15 min/email |
 | Client Onboarding Package | Generate a complete, partner-signable new-client onboarding package including a welcome letter, **service-type × entity-type document request matrix**, **30/60/90-day service timeline**, key contact sheet, **per-software technology setup playbook**, **industry overlay** for industry-specific PBC items, **first-year-engagement risk-management items** (conflict check, AML/sanctions screen, AU-C 210 predecessor-auditor communication, §6695 conflict-of-interest waiver), and an FAQ tuned to the engaged service. | ~35 min/client |
+| Audit Coverage & Traceability Matrix | Build the engagement's **coverage-and-traceability matrix**: a single working paper that links every planned audit procedure to (a) the financial-statement line item or disclosure it addresses, (b) the relevant assertion(s), (c) the workpaper and evidence reference that supports it, and (d) the preparer/reviewer sign-off. | ~90 min/engagement |
 | Audit Planning Memo | Draft a risk-based audit planning memorandum that satisfies AU-C 300 (Planning an Audit) and AU-C 315 (Understanding the Entity and Its Environment and Assessing the Risks of Material Misstatement). | ~60 min/engagement |
 | Compliance Tracker | Generate a comprehensive regulatory compliance calendar and checklist for a client based on their entity type, jurisdiction, industry, and active tax registrations. | ~20 min/review |
 | Engagement Letter Generator | Draft a professional, standards-compliant engagement letter that defines scope, fees, responsibilities, and limitations for a specific accounting service — tax preparation, compilation, review, audit, bookkeeping/CAS, payroll, or advisory. | ~35 min/letter |
@@ -33,7 +34,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 | Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
 | Review Responder | Craft professional responses to online reviews — both positive and negative. | ~10 min/use |
 
-**Total time saved per use: ~735+ minutes across all skills.**
+**Total time saved per use: ~825+ minutes across all skills.**
 
 ## Quick Start
 
