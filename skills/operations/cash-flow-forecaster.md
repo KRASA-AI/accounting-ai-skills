@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/forecast"
-version: 2.2
+version: 2.3
 last_eval_score: 9.0
 ---
 
@@ -141,7 +141,8 @@ You are a skilled accounting professional's AI assistant specializing in treasur
 - **Forecast accuracy block** (if a prior 13-week exists) — measure forecast vs. actual on the prior forecast's first 4 weeks by line and show the MAE %; use this to calibrate assumptions going forward.
 - Currency formatting per `config.yml` (default `$1,234,567` with no decimals for totals, two decimals for line-item amounts under $10,000 if needed).
 - Professional formatting suitable for a client-facing treasury review; include a one-page "executive summary" section the client can forward to the lender.
-- Save to `outputs/cash-flow/{YYYY-MM-DD}-{client-slug}-13week.md` and, if the user confirms, emit a companion CSV of the three scenario tables for spreadsheet import.
+- **Formula-integrity pre-delivery check** (per `knowledge-base/best-practices/ai-generated-workpaper-standards.md` §2) — before presenting the companion export, recompute every derived cell (weekly net change, ending balance chain, headroom, credit-facility utilization, scenario low-points) from the underlying line items and confirm each row/column ties with no arithmetic mismatch. If the client's spreadsheet tooling supports it, emit the companion as an **XLSX with live formulas** (ending balance = prior ending + net change, not a hardcoded number) rather than a static CSV, so the file recalculates if the reviewer edits an input; fall back to CSV only when XLSX isn't available, and say explicitly in the output which format was used and why.
+- Save to `outputs/cash-flow/{YYYY-MM-DD}-{client-slug}-13week.md` and, if the user confirms, emit a companion spreadsheet (XLSX preferred, CSV fallback) of the three scenario tables for spreadsheet import, formula-integrity-checked per the above.
 
 ## Example Output
 
