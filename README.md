@@ -13,6 +13,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
+| Balance Sheet Account Rollforward Builder | Build a GL-tied rollforward workpaper for one balance-sheet account (or a defined account group) for one period: opening balance → categorized activity → closing balance, with every line traced to a ledger query or source document, a mechanical foot check, and any difference left visible as an **unreconciled residual** rather than absorbed into a line. | ~40 min/account |
 | Budget vs Actual Variance Analyzer | Turn a raw budget-vs-actual export into a board-ready variance report: a ranked list of material variances with probable causes, follow-up questions for operations, impact classification (Low / Medium / High), a forecast implication, and a clean narrative the controller, CFO, or business owner can read in five minutes. | ~45 min/report |
 | Cash Flow Forecaster | Build a rolling 13-week direct-method cash flow forecast with three scenarios (base / upside / downside), weekly ending-balance and cumulative-headroom tracking, DSO-based receivables modeling, payment-term-aware payables modeling, and a treasury action plan the controller or CFO can act on this week. | ~45 min/forecast |
 | Financial Narrative Builder | Transform raw financial statements into a clear, management-ready narrative report with period-over-period variance analysis, industry-tuned KPI highlights, peer-benchmark flags, and a forward-looking advisory brief that a business owner, board, or lender can act on. | ~35 min/report |
@@ -36,7 +37,7 @@ This repo is a complete AI toolkit for accounting. Every skill is a standalone p
 | Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
 | Review Responder | Craft professional responses to online reviews — both positive and negative. | ~10 min/use |
 
-**Total time saved per use: ~875+ minutes across all skills.**
+**Total time saved per use: ~915+ minutes across all skills.**
 
 ## Quick Start
 
