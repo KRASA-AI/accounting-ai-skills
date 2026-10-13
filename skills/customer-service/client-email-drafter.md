@@ -4,7 +4,7 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~15 min/email"
-version: 2.3
+version: 2.4
 last_eval_score: 9.0
 ---
 
@@ -137,7 +137,7 @@ Resolve the client's industry to its profile *before* drafting. Each profile say
    | Trust / estate (1041) | April 15, 2026 | Form 1041 | Same as 1040 | T-45 + T-21 + T-7 |
    | Form 1041 extension | April 15, 2026 | Form 7004 | Extension to September 30, 2026 (5.5-month extension) | T-21 + T-7 |
    | Form 990 (nonprofit, calendar year) | May 15, 2026 | Form 990 / 990-EZ / 990-N | Late-filing penalty up to $235/day; revocation after 3 consecutive missed years | T-45 + T-21 + T-7 |
-   | Form 990 extension | May 15, 2026 | Form 8868 | Extension to November 15, 2026 | T-21 + T-7 |
+   | Form 990 extension | May 15, 2026 | Form 8868 | Extension to November 16, 2026 (Nov 15 falls on a Sunday) | T-21 + T-7 |
    | Form 5500 (ERISA — calendar year) | July 31, 2026 | Form 5500 | DOL penalty up to $2,739/day per missed return | T-45 + T-21 + T-7 |
    | Form 5500 extension | July 31, 2026 | Form 5558 | Extension to October 15, 2026 | T-21 + T-7 |
    | FBAR / FinCEN 114 | April 15, 2026 (automatic 6-mo to October 15) | FinCEN 114 | Civil penalty up to greater of $10K or 50% of account balance for willful violation | T-21 + T-7 |
@@ -145,11 +145,13 @@ Resolve the client's industry to its profile *before* drafting. Each profile say
    | NY LLC Transparency Act report | January 1, 2026 + ongoing changes within 90 days | NY Dept of State | Suspension of LLC; per-day penalties | T-30 + T-7 |
    | March 1 farmer rule | March 1, 2026 | Form 1040 (if no Q4 estimate paid) | If 2/3 of gross income from farming and no Q4 estimate paid by Jan 15, must file and pay full balance by 3/1 to avoid penalty | T-21 + T-7 |
    | K-1 distribution (1065 / 1120-S filing or extension) | March 16 or September 15, 2026 | Schedule K-1 | Recipient cannot file personal return until K-1 received; communicate timing early | Within 5 business days of filing |
-   | OBBBA §174A retro election | Per Rev. Proc. 2025-28 deadlines (small-business cutoff) | Form 3115 / superseding return | Loss of §174A retroactive deductibility for 2022–2024 | T-30 + T-7 from applicable cutoff |
+   | OBBBA §174A retro election | **July 6, 2026 — passed.** Do not send reminder emails for this item after that date; post-deadline client questions go to **R&D Credit Documenter** (unamortized 2022–2024 R&E recovery path) | Amended returns / AARs (Form 3115 alternative) | Retroactive small-business path closed; remaining recovery via the OBBBA transition rule | Status-update only, after partner review |
    | OBBBA §4475 Remittance Transfer Tax | Effective dates per final regs (post-June 12, 2026 comment close) | TBD | TBD — flag for partner review | T-21 once final regs issued |
    | SALT $40K cap (OBBBA) | Effective 2026 tax year (income-phase-down) | Schedule A (Form 1040) | Affects Q1 2026 estimated-tax projection | Cover in Q1 estimate email |
    | §45B FICA tip credit / §3121(q) | Ongoing | Form 8846 / 941 | Tip-reporting accuracy affects credit calculation; T.D. 10044 (TTOC) implications | Cover in restaurant / hospitality vertical emails |
    | Generic state notice response | 30 / 60 / 90 days from notice date (state-specific — see **IRS Notice Responder** State Notice Overlay for CA / NY / TX / FL / IL / WA / CO / GA / NJ / PA) | Per state | Notice becomes final; collections / lien risk | Within 5 business days of receipt |
+
+   **Date-currency rule (apply before quoting any date from the table above).** The table is anchored to calendar-year 2026 filings. Compare every date you are about to quote with today's date: (a) if the date has already passed, never present it as upcoming — either reference it as past (e.g., "the extended deadline was October 15, 2026") or use the **next occurrence**; (b) roll the next occurrence forward one year and apply the weekend/legal-holiday rule (§7503 — a due date on a Saturday, Sunday, or legal holiday moves to the next business day); (c) mark any rolled-forward date **[VERIFY — confirm against the current-year IRS calendar]** until the firm confirms it, because statutory changes and federal-holiday shifts can move dates. Next-occurrence dates already checked for weekday: Q4 2026 estimate **January 15, 2027** (Fri); 2026 partnership / S-corp returns **March 15, 2027** (Mon); 2026 individual, C-corp, and 1041 returns and Q1 2027 estimate **April 15, 2027** (Thu); 2026 calendar-year Form 990 **May 17, 2027** (May 15 falls on a Saturday); Q2 2027 estimate **June 15, 2027** (Tue); 2026 calendar-year Form 5500 **August 2, 2027** (July 31 falls on a Saturday); Q3 2027 estimate and extended 1065 / 1120-S **September 15, 2027** (Wed); extended 1040 / 1120 **October 15, 2027** (Fri). Penalty amounts in the table are inflation-adjusted annually — flag them **[VERIFY — current-year amount]** in any email sent for a 2027 deadline.
 
    The overlay row that fires should appear in the email body where deadlines are referenced (e.g., "the federal individual return is due April 15, 2026; the Form 4868 extends filing but not payment, so any balance due is still owed by April 15"). If multiple deadlines apply (e.g., the client is a partnership-member individual who needs both a 1065 K-1 and their own 1040), name both and order by earliest.
 

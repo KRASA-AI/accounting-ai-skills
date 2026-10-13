@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~40 min/account"
-version: 1.0
-last_eval_score: null
+version: 1.1
+last_eval_score: 9.0
 ---
 
 # 🔁 Balance Sheet Account Rollforward Builder
@@ -83,4 +83,24 @@ You are a senior accountant's AI assistant preparing a balance-sheet rollforward
 
 ## Example Output
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with a sample prepaid or accrued-liabilities GL export to see output quality.]
+*Illustrative only — fictional client, figures chosen to show an open item.*
+
+> **Rollforward — Prepaid Insurance (GL 1410)** · Client: Northwind Fabrication LLC · Period: Sep 1–30, 2026 · USD
+> Preparer: Joan Whitfield · Reviewer: ________ · Sources: Aug-2026 signed close package; Sep GL detail export; Sep 30 TB; insurance amortization schedule v3
+>
+> | Line | Amount | Ties to | Notes |
+> |---|---:|---|---|
+> | Opening balance | 24,000.00 | Aug-2026 close package, GL 1410 | Prior-period tie-out: close package = GL at Aug 31 ✔ |
+> | Additions (payments) | 18,000.00 | JE 2026-09-004 (AP source) | Umbrella policy renewal, 12-mo term from Sep 1 |
+> | Amortization to expense | (5,500.00) | JE 2026-09-118 (recurring); schedule v3 Sep total | GL policy $4,000 + umbrella $1,500 |
+> | Unclassified — needs preparer decision | (150.00) | JE 2026-09-131 (manual, blank description) | Offset to 6420 Office Supplies |
+> | **Calculated closing** | **36,350.00** | | |
+> | TB closing | 36,350.00 | Sep 30 TB | |
+> | **Unreconciled residual** | **0.00** | | |
+> | **Foot check** | **PASS** | | Detail completeness: GL detail net 12,350.00 = TB movement 12,350.00 ✔ |
+>
+> **Exceptions and reviewer flags**
+> 1. *Unclassified line:* JE 2026-09-131 credits prepaid insurance and debits office supplies with no description — likely a mis-coded entry. Ask the preparer to support or reverse; review in MindBridge.
+> 2. *Reasonableness:* amortization of $5,500 is up $1,500 from the August run-rate. The increase matches the new umbrella policy (18,000 ÷ 12). No exception.
+>
+> **Status: Open** — the schedule foots, but one unclassified line is still unresolved. Routing: Staff prepares → Manager reviews → Partner signs.
